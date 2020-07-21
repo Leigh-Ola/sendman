@@ -1,0 +1,56 @@
+{
+  "1595076568687Gz5Uz6fUUYFUWyRjH": {
+    "username": "Jane Doe",
+    "numbers": [
+      "09087654321"
+    ],
+    "password": "testuser",
+    "mainEmail": "test2@user.com",
+    "emails": [
+      "test2@user.com"
+    ],
+    "id": "1595076568687Gz5Uz6fUUYFUWyRjH",
+    "image": "/images/user/1595076568687Gz5Uz6fUUYFUWyRjH",
+    "bio": "",
+    "lastSeen": "2020-07-18T17:38:57.352Z",
+    "privacy": {
+      "group": "friends",
+      "profile": "no one"
+    },
+    "contacts": [],
+    "chats": [
+      {
+        "type": "private",
+        "recipient": "1595076661183lByQGbrqz9S3blxRi",
+        "chatId": "1595076689186t6SKv0mkdVKl5pgoA"
+      }
+    ]
+  },
+  "1595076661183lByQGbrqz9S3blxRi": {
+    "username": "John Doe",
+    "numbers": [
+      "09012345678"
+    ],
+    "password": "testuser",
+    "mainEmail": "test@user.com",
+    "emails": [
+      "test@user.com"
+    ],
+    "id": "1595076661183lByQGbrqz9S3blxRi",
+    "image": "/images/user/1595076661183lByQGbrqz9S3blxRi",
+    "bio": "this is my bio",
+    "lastSeen": "2020-07-18T18:27:39.534Z",
+    "privacy": {
+      "group": "friends",
+      "profile": "no one"
+    },
+    "contacts": [],
+    "chats": [
+      {
+        "type": "private",
+        "recipient": "1595076568687Gz5Uz6fUUYFUWyRjH",
+        "chatId": "1595076689186t6SKv0mkdVKl5pgoA"
+      }
+    ]
+  }
+}
