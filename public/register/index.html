@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SENDMAN | Register</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/fontawesome-all.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/iofrm-style.css" />
+    <link rel="stylesheet" type="text/css" href="css/iofrm-theme22.css" />
+
+    <link rel="stylesheet" href="./css/added.css" />
+  </head>
+  <body>
+    <div class="form-body without-side" id="app">
+      <div class="website-logo">
+        <a href="../index.html">
+          <div class="logo">
+            <img class="" src="./images/logo.png" alt="" />
+          </div>
+        </a>
+      </div>
+      <div class="row">
+        <div class="img-holder">
+          <div class="bg"></div>
+          <div class="info-holder">
+            <img src="images/graphic3.svg" alt="" />
+          </div>
+        </div>
+        <div class="form-holder">
+          <div class="form-content">
+            <div class="form-items">
+              <h3>Create a new account</h3>
+              <p>
+                Get access to the most powerful tool for sending and receiving
+                files.
+              </p>
+              <form
+                action="/signup"
+                method="post"
+                name="login"
+                @submit.prevent="signup()"
+              >
+                <input
+                  class="form-control"
+                  type="text"
+                  name="uname"
+                  placeholder=" Username"
+                  v-model="uname"
+                  required
+                />
+                <label for="uname">{{uname_err}}</label>
+                <input
+                  class="form-control"
+                  type="number"
+                  name="number"
+                  placeholder="Phone Number"
+                  v-model="num"
+                  required
+                />
+                <label for="number">{{num_err}}</label>
+                <input
+                  class="form-control"
+                  type="email"
+                  name="email"
+                  placeholder="E-mail Address"
+                  v-model="email"
+                  required
+                />
+                <label for="email">{{email_err}}</label>
+                <input
+                  class="form-control"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  v-model="pwd"
+                  required
+                />
+                <label for="password">{{pwd_err}}</label>
+                <input
+                  class="form-control"
+                  type="password"
+                  name="confirm_password"
+                  placeholder="Confirm Password"
+                  v-model="confirm_pwd"
+                  required
+                />
+                <label for="confirm_password">{{confirm_pwd_err}}</label>
+                <span class="err">{{err}}</span>
+                <div class="form-button">
+                  <button id="submit" type="submit" class="ibtn">
+                    Register
+                  </button>
+                </div>
+              </form>
+              <!-- <div class="other-links">
+                <div class="text">Or register with</div>
+                <a href="#"><i class="fab fa-facebook-f"></i>Facebook</a
+                ><a href="#"><i class="fab fa-google"></i>Google</a
+                ><a href="#"><i class="fab fa-linkedin-in"></i>Linkedin</a>
+              </div> -->
+              <div class="page-links">
+                Already have an account? <a href="../login/index.html">Login</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="../Libs/Axios/axios.min.js"></script>
+  <script src="../Libs/Vue/vue.min.js"></script>
+  <script src="js/main.js"></script>
+</html>
