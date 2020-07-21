@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>SENDMAN | My Settings</title>
+    <link
+      rel="stylesheet"
+      href="../Libs/FontAwesome/css/font-awesome.min.css"
+    />
+
+    <link rel="stylesheet" href="./css/main.css" />
+  </head>
+  <body>
+    <main id="app">
+      <div class="card" v-cloak>
+        <div class="dpbox" :class="{'border': loading}">
+          <div class="cover">{{loadText}}</div>
+          <img
+            :src="settings.image"
+            :class="{'hide': loading}"
+            alt="Your Profile Picture"
+          />
+          <div class="new">
+            <i class="fa fa-image"></i>
+            <input
+              class="above"
+              id="file"
+              type="file"
+              :accept="validExtensionsString"
+              @change="upload()"
+            />
+          </div>
+        </div>
+        <h1>{{settings.username}}</h1>
+        <span class="bio">{{settings.bio}}</span>
+      </div>
+
+      <div class="settings">
+        <v-username
+          :username="settings.username"
+          @update="update()"
+        ></v-username>
+
+        <v-bio :bio="settings.bio" @update="update()"></v-bio>
+
+        <v-emails :emails="settings.emails" @update="update()"></v-emails>
+
+        <v-numbers :numbers="settings.numbers" @update="update()"></v-numbers>
+
+        <v-password></v-password>
+
+        <v-privacy :privacy="settings.privacy"></v-privacy>
+      </div>
+    </main>
+  </body>
+  <script src="../Libs/PrefixFree/fullPrefixFree.js"></script>
+  <script src="../Libs/Sizzle/sizzle.min.js"></script>
+  <script src="../Libs/Vue/vue.min.js"></script>
+  <script src="../Libs/Axios/axios.min.js"></script>
+
+  <script src="./js/main.mjs" type="module"></script>
+</html>

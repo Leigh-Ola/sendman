@@ -1,0 +1,83 @@
+/* 
+aside
+*/
+.dark > aside {
+  background: rgb(9, 9, 44);
+  color: grey;
+  box-shadow: 5px 0px 5px black;
+}
+.dark > aside .optionsbox {
+  color: grey;
+  background: rgb(9, 9, 44);
+}
+.dark aside .optionsbox div:not(.switch):hover {
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.2);
+}
+.dark > aside .inputbox input {
+  background: #ccc;
+}
+.dark > aside .contactsbox .contact {
+  background: rgba(0, 0, 0, 0.6);
+}
+.dark .contactsbox .contactoption span {
+  background: #080825;
+}
+.dark > aside .contactsbox .contactinside {
+  background: #040416;
+}
+.dark > aside .contactsbox .contactinside:hover {
+  background: #080825;
+}
+.dark > aside .contactsbox .contactinside.active {
+  background: #0c1b31;
+}
+
+/* 
+Body
+*/
+.dark > .body {
+  background: rgb(9, 9, 44);
+}
+.dark > .body header,
+.dark > .body header .contactbox {
+  color: grey;
+  background: rgb(9, 9, 44);
+}
+.dark > .body header {
+  box-shadow: 5px 0px 5px #8181db;
+}
+.dark > .body .chatbox .nothing {
+  color: #ccc;
+}
+.dark > .body .msgbox span {
+  color: rgb(111, 111, 192);
+}
+.dark > .body .msgbox .iconbox {
+  background: rgb(9, 9, 44);
+  background: transparent;
+}
+.dark > .body .typebox {
+  background: rgba(0, 0, 0, 0.4);
+  color: gray;
+}
+.dark > .body .sendbox .progress {
+  background: rgba(12, 27, 49, 0.7);
+}
+
+/* 
+popup
+*/
+#app.dark .popup {
+  background: rgba(0, 0, 0, 0.6);
+}
+#app.dark .popup aside {
+  background: rgb(9, 9, 44);
+}
+#app.dark .popup aside header div {
+  color: white;
+}
+#app.dark .popup .contactsbox .contact {
+  background: #8181db;
+  background: #040416;
+}

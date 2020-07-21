@@ -1,0 +1,375 @@
+aside {
+  width: 30%;
+  max-width: 400px;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+  flex-flow: column nowrap;
+  background: white;
+  box-shadow: 2px 0px 5px rgb(36, 80, 105);
+  position: relative;
+  z-index: 2;
+}
+
+aside header {
+  display: block;
+  width: 90%;
+  margin: 10px auto;
+  height: 40px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 1.2em;
+  flex-shrink: 0;
+  position: relative;
+  text-transform: uppercase;
+  font-family: "Times New Roman", Times, serif;
+}
+aside header img {
+  width: 120px;
+  margin: auto;
+}
+aside header .options {
+  display: flex;
+  height: 30px;
+  width: 1.8em;
+  position: absolute;
+  top: calc(50% - 15px);
+  right: 0px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  color: #555;
+  justify-content: center;
+  align-items: center;
+}
+aside header .options:hover {
+  color: #000;
+}
+aside header .options:active {
+  background: #ccc;
+}
+
+/*   color: rgb(43, 11, 43); */
+aside .inputbox {
+  display: flex;
+  flex-shrink: 0;
+  width: 90%;
+  margin: 5px auto;
+  height: 40px;
+  border-radius: 7px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+aside .inputbox input {
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  color: white;
+  padding: 0px 30px 0px 10px;
+  border: none;
+  background: #ddd;
+  color: #888;
+}
+aside .inputbox .icon {
+  position: absolute;
+  border: none;
+  background: transparent;
+  width: 20px;
+  height: 20px;
+  font-size: 1.2em;
+  color: white;
+  color: #888;
+  right: 7px;
+  top: calc(50% - 10px);
+}
+aside .inputbox .icon,
+aside .inputbox .icon:hover,
+aside .inputbox .icon:active {
+  outline: none;
+  border: none;
+}
+aside .filter_error {
+  font-size: 0.75em;
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: maroon;
+}
+
+/* 
+contacts
+*/
+aside .contactsbox {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100;
+  flex-grow: 1;
+  padding: 10px 2px;
+  position: relative;
+  overflow: hidden;
+  overflow-y: scroll;
+  box-sizing: border-box;
+}
+
+.contactsbox > .loader {
+  display: block;
+  width: 100%;
+  height: 3px;
+  overflow: hidden;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.contactsbox > .loader span {
+  display: block;
+  position: relative;
+  height: 100%;
+  width: 30%;
+  left: 0px;
+  top: 0px;
+  border-radius: 50%;
+  background: #245069;
+  animation: load 1.8s ease 0s infinite;
+}
+@keyframes load {
+  0% {
+    width: 0%;
+    left: 0px;
+  }
+  30% {
+    width: 100%;
+    left: 100%;
+  }
+  31% {
+    width: 0%;
+    left: 0px;
+  }
+  100% {
+    width: 100%;
+    left: 100%;
+  }
+}
+
+.contactsbox .contact {
+  display: flex;
+  width: 100%;
+  height: 64px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 5px;
+  position: relative;
+  background: #eee;
+
+  margin: 0px auto 3px auto;
+  box-shadow: 0px 0px 1px #888;
+  border-radius: 5px;
+}
+
+.contactsbox .contactoption {
+  display: flex;
+  justify-content: flex-start;
+  position: absolute;
+  margin: auto;
+  width: 70%;
+  height: 50px;
+  left: 5%;
+  top: calc(50% - 25px);
+  border-radius: 5px;
+  z-index: 1;
+}
+.contactsbox .contactoption span {
+  display: block;
+  border-radius: 10px;
+  padding: 5px 5px;
+  margin: auto 10px auto 0px;
+  font-size: 0.8em;
+  background: white;
+}
+.contactsbox .contactoption span:hover {
+  background: #ddd;
+  background: rgba(0, 0, 0, 0.1);
+}
+.contactsbox .contactoption span:active {
+  background: #ccc;
+  background: rgba(0, 0, 0, 0.5);
+}
+.contactsbox .contactoption span i {
+  margin-right: 10px;
+  color: #245069;
+}
+
+.contactsbox .contactinside {
+  left: 0px;
+  transition: left 0.3s ease;
+
+  display: flex;
+  z-index: 2;
+  flex-flow: row nowrap;
+  flex-shrink: 0;
+  width: 100%;
+  height: 64px;
+  position: relative;
+  box-sizing: border-box;
+  background: white;
+  padding: 10px 0px;
+  overflow: hidden;
+}
+.contactsbox .contactinside.slide {
+  left: 73%;
+}
+.contactsbox .contactinside:hover {
+  cursor: pointer;
+  background: #eee;
+}
+.contactsbox .contactinside:active {
+  background: #ddd;
+}
+.contactsbox .contactinside.active {
+  box-sizing: border-box;
+  background: #ddd;
+}
+
+.contactsbox .contactinside .more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 20px;
+  border-radius: 5px;
+  margin: auto 5px;
+}
+.contactsbox .contactinside .more:hover {
+  background: rgba(250, 250, 250, 0.2);
+}
+
+.contactsbox .contactinside img {
+  width: 32px;
+  height: 32px;
+  max-width: 32px;
+  max-height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  margin: auto 5px;
+  position: relative;
+}
+
+.contactsbox .contactinside .online {
+  display: block;
+  position: relative;
+  right: 7px;
+  top: 7px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: green;
+}
+
+.contactsbox .contact .contactinside .info {
+  display: flex;
+  flex-flow: column nowrap;
+  font-size: 0.95em;
+  flex-grow: 1;
+  box-sizing: border-box;
+  padding: 0px 4px;
+  align-items: stretch;
+  justify-content: space-evenly;
+}
+.contactsbox .contact .contactinside .info {
+  word-wrap: normal;
+  white-space: nowrap;
+}
+.contactsbox .contact .contactinside .info b {
+  display: flex;
+  font-family: Quicksand, Timeless, "Courier New", Courier, monospace;
+}
+.contactsbox .contact .contactinside .info b i {
+  align-self: flex-end;
+  display: flex;
+  width: 18px;
+  height: 18px;
+  font-size: 0.75em;
+  font-weight: normal;
+  font-style: normal;
+  margin: auto 3px auto auto;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  border: none;
+  background: green;
+}
+.contactsbox .contact .info > span {
+  font-size: 0.8em;
+  color: #888;
+}
+.contactsbox .contact .info > small {
+  font-size: 0.65em;
+  color: #888;
+}
+
+.contactsbox .morebox,
+.contactsbox .none {
+  width: 100%;
+  text-align: center;
+  font-size: 0.8em;
+  padding: 4px 0px;
+  margin-top: auto;
+  color: #245069;
+  text-transform: uppercase;
+}
+.contactsbox .none {
+  margin: 0px;
+}
+.contactsbox .morebox:active {
+  background: #555;
+  color: #ccc;
+}
+.contactsbox .morebox:hover {
+  cursor: pointer;
+}
+
+aside .new {
+  display: flex;
+  width: 100%;
+  flex-shrink: 0;
+  height: 50px;
+  box-sizing: border-box;
+  align-items: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  justify-content: space-evenly;
+}
+aside .new div {
+  display: block;
+  border-radius: 5px;
+  width: calc(50% - 40px);
+  text-align: center;
+  padding: 7px 0px;
+  cursor: pointer;
+}
+aside .new div.unClickable {
+  opacity: 0.5;
+}
+aside .new div:hover {
+  background: #eee;
+}
+aside .new div:active {
+  background: #ccc;
+}
+
+@media only screen and (max-width: 799px) {
+  #app > aside {
+    position: absolute;
+    transition: all 0.5s ease;
+    width: 90%;
+    left: -110%;
+    top: 0px;
+  }
+  #app > aside.show {
+    left: 0px;
+  }
+}

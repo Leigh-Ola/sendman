@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>SENDMAN | Transfer</title>
+    <link
+      rel="stylesheet"
+      href="../Libs/FontAwesome/css/font-awesome.min.css"
+    />
+
+    <link rel="stylesheet" href="./css/main.css" />
+    <!-- <link
+      rel="stylesheet"
+      href="./css/main-small.css"
+      media="screen and (max-width: 450px)"
+    /> -->
+    <link rel="stylesheet" href="./css/aside.css" />
+    <link rel="stylesheet" href="./css/body.css" />
+    <link rel="stylesheet" href="./css/newconversation.css" />
+    <link rel="stylesheet" href="./css/profile.css" />
+    <link rel="stylesheet" href="./css/dark.css" />
+  </head>
+  <body>
+    <main id="app" :class="{'dark' : darkmode,'showprofile' : showprofile}">
+      <aside :class="[showaside? 'show' : '']" @click.stop="" v-cloak>
+        <header id='logoheader'>
+          <img id='sendmanlogo' src="../logo.png" alt="" />
+          <a class="options" href="../settings/index.html">
+            <i class="fa fa-cog"></i>
+          </a>
+        </header>
+        <div class="popup" :class="[newc_popup? 'show' : '']">
+          <v-new-conversation
+            @updateContacts="updateContacts()"
+            @close="newc_popup = false"
+          ></v-new-conversation>
+        </div>
+        <form
+          @submit.prevent="updateContacts(filter)"
+          action="/"
+          name="filterform"
+          class="inputbox"
+        >
+          <input
+            type="search"
+            name="search"
+            id="search"
+            v-model="filter"
+            placeholder="Search"
+          />
+          <submit
+            @click.prevent="updateContacts(filter)"
+            class="icon fa fa-search"
+          ></submit>
+        </form>
+        <span class="filter_error" v-if="show_f_err" v-cloak>{{f_err}}</span>
+        <div class="contactsbox">
+          <div class="loader" v-show="loadingUsers">
+            <span></span>
+          </div>
+
+          <v-user
+            v-for="(user, key) in contacts"
+            v-if="!loadingUsers"
+            :user="user"
+            :active_id="active_user_id"
+            @switch="switchUser($event)"
+          ></v-user>
+          <div class="none" v-if="contacts.length == 0">Nothing to show</div>
+          <!-- <div class="morebox">load more</div> -->
+        </div>
+        <div class="new">
+          <div class="chat" @click.stop="newc_popup=true">New</div>
+          <div class="group" :class="{'unClickable' : loadingUsers}" @click.stop="toggleArchive()">{{inArchive? 'Friends' : 'Archive'}}</div>
+        </div>
+      </aside>
+
+      <v-profile
+        :chat="contacts[active_user_index]"
+        :files="messages"
+        :showprofile="showprofile"
+        v-if="contacts[active_user_index]"
+        @vclose="showprofile = false"
+      ></v-profile>
+
+      <div class="body" @click="showaside = false;">
+        <header @click.stop="">
+          <div class="contactwrapper" v-if="contacts.length">
+            <div class="contactbox">
+              <img :src="active_user.image+'?'+new Date().getTime()" alt="" @click.stop="showprofile = true" />
+              <div class="contact" @click.stop="showprofile = true" v-cloak>
+                <b>{{active_user.username || active_user.groupname}}</b>
+                <small :class="['on']" v-if="active_user.type == 'group'">
+                  {{active_user.members.length}} Members
+                </small>
+                <small :class="['on']" v-else>
+                  {{active_user.online? 'online' : 'offline'}}
+                </small>
+                <small v-else>offline</small>
+              </div>
+            </div>
+          </div>
+          <i class="trigger" @click.stop="showaside = !showaside"
+            ><i class="fa fa-bars"></i
+          ></i>
+        </header>
+
+        <div class="chatbox">
+          <div class="loader" v-show="loadingMessages">
+            <span></span>
+          </div>
+
+          <div class="nothing" v-if="messages.length == 0">
+            <i class="fa fa-exclamation"></i>
+            No messages to show
+            <i class="fa fa-exclamation"></i>
+          </div>
+
+          <v-message
+            v-for="message in messages"
+            v-if="!loadingMessages && !loadingUsers"
+            :message="message"
+            :chat="contacts[active_user_index]"
+          ></v-message>
+        </div>
+
+        <div class="typebox" v-cloak>
+          <div class="sendbox">
+            <span v-if="fileData.size==0">Select A File</span>
+            <span v-else-if="fileData.error">{{fileData.error}}</span>
+            <span v-else-if="fileData.sending"
+              >Sending {{croppedFileName}} ({{fileData.progress}}%)</span
+            >
+            <span class="fname" :class="[showrename? 'wide': '']" v-else>
+              {{croppedFileName}}
+              <div class="renamebox">
+                <input
+                  type="text"
+                  value="xyz"
+                  id="rename"
+                  v-model="rename"
+                  placeholder="Rename your file"
+                />
+                <i
+                  class="fa"
+                  :class="[showrename? 'fa-save' : 'fa-edit']"
+                  @click.stop="renameFile()"
+                ></i>
+              </div>
+            </span>
+            <span
+              class="progress"
+              v-if="fileData.progress && fileData.error"
+              :style="{'right': '0%'}"
+              :class="['err']"
+            ></span>
+            <span
+              class="progress"
+              v-else-if="fileData.size"
+              :style="{'right': (100-fileData.progress)+'%'}"
+            ></span>
+            <input type="file" name="file" id="file" />
+          </div>
+
+          <div class="ficon" v-show="fileData.sending" @click="cancelUpload()">
+            <i class="fa fa-close"></i>
+          </div>
+          <div class="ficon sendfile" v-show="!fileData.sending">
+            <i class="fa fa-paper-plane"></i>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+  <script src="../Libs/PrefixFree/fullPrefixFree.js"></script>
+  <script src="../Libs/Sizzle/sizzle.min.js"></script>
+  <script src="../Libs/Vue/vue.min.js"></script>
+  <script src="../Libs/Axios/axios.min.js"></script>
+  <script src="../Libs/Moment/moment.min.js"></script>
+  <script src="../Libs/Moment-Precise-Date-Range/moment-precise-range.js"></script>
+  <!-- <script src="../Libs/Notify/notify.js"></script> -->
+  <script src="./js/main.mjs" type="module"></script>
+</html>

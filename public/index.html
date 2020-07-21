@@ -1,1 +1,70 @@
-
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="refresh" content="0; url=./chat/index.html" />
+    <style>
+      main {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        font-family: Verdana, Geneva, Tahoma, sans-serif, "Times New Roman",
+          Times, serif;
+        font-size: 16px;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+      }
+      div {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-around;
+        align-items: center;
+      }
+      ins {
+        text-decoration: none;
+        font-size: 25px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        font-family: "Courier New", Courier, monospace;
+      }
+      ins::after {
+        content: "";
+        animation: add 2s ease 0s infinite alternate;
+      }
+      @keyframes add {
+        25% {
+          content: "";
+        }
+        50% {
+          content: ".";
+        }
+        75% {
+          content: "..";
+        }
+        100% {
+          content: "...";
+        }
+      }
+      span {
+        margin: 10px 0px;
+        font-size: 0.8em;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div>
+        <ins>LOADING</ins>
+        <span>OR</span>
+        <span
+          >Not redirected yet? Click <a href="./chat/index.html">here</a>.</span
+        >
+      </div>
+    </main>
+  </body>
+  <script>
+    setTimeout(() => {
+      window.location.href = "/chat/index.html";
+    }, 3000);
+  </script>
+</html>
