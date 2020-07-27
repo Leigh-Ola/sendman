@@ -1,0 +1,51 @@
+@font-face {
+  font-family: Timeless;
+  src: url("../../Fonts/Normal/timeless/Timeless.ttf");
+  /* newspaper, m */
+}
+@font-face {
+  font-family: Quicksand;
+  src: url("../../Fonts/Normal/quicksand/Quicksand.otf");
+  /* perfect informal, l */
+}
+@font-face {
+  font-family: Josefin;
+  src: url("../../Fonts/Normal/josefin-sans/JosefinSans.ttf");
+  /* Good but thin handwriting, m */
+}
+@font-face {
+  font-family: Comfortaa;
+  src: url("../../Fonts/Normal/comfortaa/Comfortaa.ttf");
+  /* informal, l */
+}
+@font-face {
+  font-family: Titillium;
+  src: url("../../Fonts/Formal/titillium-web/TitilliumWeb-Regular.ttf");
+  /* perfect formal, m */
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+  font-size: 100%;
+  font-family: Titillium, Quicksand, "Segoe UI", Tahoma, Verdana, sans-serif;
+}
+main {
+  display: flex;
+  position: fixed;
+  height: 100%;
+  align-items: stretch;
+  width: 100%;
+}
+a {
+  color: black;
+  text-decoration: none;
+}
+
+[v-cloak],
+* > [v-cloak] {
+  opacity: 0;
+}
+
+@media only screen and (max-width: 799px) {
+}

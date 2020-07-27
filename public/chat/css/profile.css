@@ -1,0 +1,217 @@
+/* #app:not(.showprofile) .profilepopup {
+  display: none;
+} */
+#app .profilepopup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  z-index: 10;
+  left: 0px;
+  top: -110%;
+  background: rgba(0, 0, 0, 0.3);
+
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.4s ease 0s;
+}
+#app.showprofile .profilepopup.show {
+  opacity: 1;
+  transform: scale(1);
+  top: 0px;
+}
+
+#app .profilepopup i.fa-times {
+  position: absolute;
+  top: 5px;
+  right: 12px;
+  color: #444;
+  z-index: 2;
+  align-items: center;
+  justify-content: center;
+  width: 2em;
+  height: 2em;
+  display: none;
+}
+#app .profilepopup .contactwrapper i.fa-times:hover {
+  color: black;
+}
+#app .profilepopup i.fa-times:active {
+  color: #ddd;
+}
+
+.profilepopup .profilewrapper {
+  display: block;
+  margin: auto;
+  width: 400px;
+  max-width: 90%;
+  height: 90%;
+  max-height: 800px;
+  padding: 5px;
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 1;
+  background: white;
+}
+
+.showprofile .profilebox {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  padding: 10px 5px;
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  position: relative;
+  font-size: 0.85em;
+  font-family: Titillium, Quicksand, "Courier New", Courier, monospace;
+  background: transparent;
+}
+
+.showprofile .profilebox .dpbox {
+  display: flex;
+  width: 350px;
+  height: 350px;
+  flex-shrink: 0;
+  position: relative;
+  flex-flow: column nowrap;
+  border-radius: 4px;
+  overflow: hidden;
+  background: transparent;
+}
+.showprofile .profilebox .dpbox img {
+  width: 100%;
+  align-items: flex-start;
+  max-height: 100%;
+  max-width: 100%;
+  margin: 0px auto;
+  border-radius: 4px;
+}
+.showprofile .profilebox .dpbox .name {
+  display: block;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  padding: 10px;
+  font-size: 1.1em;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, transparent 10%, white);
+}
+
+.showprofile .profilebox .bio {
+  display: block;
+  padding: 5px;
+  margin-top: 10px;
+  /* border: 1px solid #ccc; */
+  border-radius: 3px;
+  font-size: 1.15em;
+  font-family: Josefin, Quicksand, "Courier New", Courier, monospace;
+}
+
+.showprofile .profilebox .detailsbox {
+  display: flex;
+  width: 100%;
+  margin: 10px 0px;
+  flex-flow: column nowrap;
+  box-sizing: border-box;
+  padding: 15px 5px 0px 5px;
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+.showprofile .profilebox .detailsbox .empty {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.showprofile .profilebox .detailsbox small {
+  position: absolute;
+  top: calc(-15px + 0.3em);
+  left: 10px;
+  font-size: 1.05em;
+  padding: 0px 5px;
+  background: white;
+}
+.showprofile .profilebox .detailsbox span {
+  padding: 3px 0px;
+}
+.showprofile .profilebox .detailsbox span:nth-of-type(even) {
+  /* background: rgba(255, 255, 255, 0.15); */
+  border-top: 1px solid #ddd;
+}
+.showprofile .profilebox .detailsbox span:active {
+  background: #eee;
+}
+.showprofile .profilebox .detailsbox .filesbox {
+  display: flex;
+  height: auto;
+  width: 100%;
+  margin: 10px 0px 5px 0px;
+  box-sizing: border-box;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+.showprofile .profilebox .detailsbox .filesbox .img {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  display: flex;
+  margin: 0px 5px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+.showprofile .profilebox .detailsbox .filesbox .img.isActive {
+  background: rgba(0, 0, 0, 0.2);
+}
+.showprofile .profilebox .detailsbox .filesbox img {
+  max-height: 90%;
+  max-width: 90%;
+  width: 100%;
+  margin: auto;
+  height: 100%;
+}
+.showprofile .profilebox .detailsbox .file {
+  display: block;
+  padding: 0px 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.showprofile .profilebox .detailsbox .file:hover {
+  color: #7c2e2e;
+  text-decoration: underline;
+  text-decoration-color: #7c2e2e;
+}
+.showprofile .profilebox .detailsbox .file i {
+  padding: 0px 5px;
+  font-size: 0.85em;
+  font-style: normal;
+  font-family: Quicksand, "Segoe UI", Tahoma, Verdana, sans-serif;
+}
+.showprofile .profilebox .date {
+  display: block;
+  padding: 5px 0px;
+}
+.showprofile .profilebox .date span {
+  font-family: Titillium, "Segoe UI", Tahoma, Verdana, sans-serif;
+}
+
+@media only screen and (max-width: 799px) {
+  #app.showprofile .profilepopup i.fa-times {
+    display: flex;
+  }
+  #app.showprofile .profilewrapper {
+    max-width: 96%;
+    max-height: 600px;
+  }
+}

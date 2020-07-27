@@ -1,0 +1,27 @@
+{
+  "createdOn": "Sat Jul 18 2020 12:24:45 GMT+0100 (West Africa Standard Time)",
+  "createdBy": "1595071228118GBiku01ta7aTEOX7M",
+  "chatId": "1595071485774FjPpEkJ798m9TY2Ls",
+  "members": [
+    "1595071228118GBiku01ta7aTEOX7M",
+    "1595071228118MBiku01asdfghjkll"
+  ],
+  "type": "private",
+  "transfers": [
+    {
+      "link": "/download/1595071485774FjPpEkJ798m9TY2Ls/Uymp3EViyi9FyAdvjO9Q",
+      "time": "2020-07-18T12:15:08Z",
+      "name": "1595074508089_tesla_home.htm",
+      "realName": "tesla_home.htm",
+      "sender": "1595071228118GBiku01ta7aTEOX7M",
+      "senderimage": "/images/user/1595071228118GBiku01ta7aTEOX7M",
+      "size": "106.86kb",
+      "fileId": "Uymp3EViyi9FyAdvjO9Q",
+      "seen": [
+        "1595071228118GBiku01ta7aTEOX7M"
+      ]
+    }
+  ],
+  "muted": [],
+  "archived": []
+}

@@ -1,0 +1,361 @@
+aside > .popup {
+  display: flex;
+  position: absolute;
+  z-index: 4;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  height: calc(100% - 62px);
+  transition: all 0.3s ease;
+  top: 110%;
+  left: 0px;
+}
+aside > .popup.show {
+  top: 60px;
+}
+
+.popup .asidebox {
+  width: 400px;
+  max-width: 90%;
+  display: flex;
+  overflow: hidden;
+  align-items: stretch;
+  margin: auto;
+  border: 2px solid #7c2e2e;
+  padding: 4px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px black;
+
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  position: absolute;
+  top: 100%;
+  left: 0px;
+  transition: all 0.4s ease;
+}
+.popup .asidebox.show {
+  top: 0px;
+}
+/* 
+    #7c2e2e, #245069
+*/
+
+.asidebox aside {
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+
+  min-height: 280px;
+  max-height: 90vh;
+  display: flex;
+  box-sizing: border-box;
+  /* border: 2px solid #245069; */
+  flex-flow: column nowrap;
+  background: white;
+  box-shadow: none;
+  border-radius: 5px;
+  position: relative;
+}
+
+.popup aside header {
+  width: 90%;
+  margin: 10px auto;
+  height: auto;
+  color: #555;
+  padding: 0px;
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  box-sizing: border-box;
+
+  font-family: "Times New Roman", Times, serif;
+}
+/* .popup aside header img {
+  width: 120px;
+  margin: auto;
+  display: none;
+} */
+.popup aside header div {
+  font-size: 0.65em;
+  color: black;
+  text-transform: uppercase;
+  margin: auto;
+  padding: 3px 0px;
+}
+.popup aside header i {
+  margin-right: 0px;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+.popup aside header i:active {
+  color: #888;
+}
+
+/*   color: rgb(43, 11, 43); */
+.popup aside .inputbox {
+  display: flex;
+  flex-shrink: 0;
+  flex-grow: 0;
+  max-height: 200px;
+  width: 90%;
+  margin: 5px auto;
+  height: 40px;
+  border-radius: 7px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.popup aside .inputbox input {
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  color: white;
+  padding: 0px 30px 0px 10px;
+  border: none;
+  background: #ddd;
+  color: #888;
+}
+.popup aside .inputbox i {
+  position: absolute;
+  background: transparent;
+  width: 20px;
+  height: 20px;
+  font-size: 1.2em;
+  color: white;
+  right: 7px;
+  top: calc(50% - 10px);
+  color: #888;
+}
+
+.popup aside .count {
+  display: flex;
+  flex-flow: row wrap;
+  flex-shrink: 0;
+  width: 90%;
+  max-width: 90%;
+  text-align: center;
+  margin: 3px auto;
+  font-size: 0.8em;
+}
+.popup aside .count.centered {
+  justify-content: space-around;
+}
+.popup aside .count span {
+  background: #7c2e2e;
+  color: white;
+  border-radius: 2px;
+  padding: 2px;
+  margin: 2px;
+}
+
+.popup aside .contactsbox {
+  display: flex;
+  margin: 5px auto;
+  flex-flow: column nowrap;
+  width: 90%;
+  height: auto;
+  flex-grow: 1;
+  min-height: 55px;
+  padding: 10px 2px;
+  overflow: hidden;
+  overflow-y: scroll;
+  box-sizing: border-box;
+}
+
+.popup aside .contact {
+  display: flex;
+  width: 100%;
+  height: 50px;
+}
+.popup aside .contact:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+.popup aside .contact img {
+  max-width: 30px;
+  max-height: 30px;
+  border-radius: 50%;
+  margin: auto 5px;
+}
+.popup aside .contact div {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+.popup aside .contact div b {
+  display: flex;
+  height: 100%;
+  margin: auto auto auto 5px;
+  align-items: center;
+  font-family: Quicksand, Timeless, "Courier New", Courier, monospace;
+}
+.popup aside .contact div i {
+  position: static;
+  margin: auto;
+  margin-left: 5px;
+  background: #7c2e2e;
+}
+.popup aside .contact div span {
+  width: 20px;
+  height: 20px;
+  font-size: 0.9em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #245069;
+  margin: auto 0px;
+  margin-left: auto;
+  align-self: flex-end;
+}
+
+.popup aside label {
+  width: 90%;
+  margin: 0px auto 5px auto;
+  flex-shrink: 0;
+  font-size: 0.9em;
+  text-align: center;
+  color: #7c2e2e;
+}
+
+.popup aside div.nextbox {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  padding: 0px;
+  height: 40px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.popup aside .nextbox button.start,
+.popup aside .nextbox input.name {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 40px;
+  flex-shrink: 0;
+  margin: 0px;
+  border: none;
+
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 1.1em;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+
+  background: #ddd;
+  color: #888;
+}
+.popup aside .nextbox .grpname {
+  border: none;
+  display: flex;
+  margin-left: -100%;
+  background: #ddd;
+  color: #888;
+  flex-shrink: 0;
+  width: 100%;
+  height: 40px;
+  min-height: 40px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+.popup aside .nextbox.isgroup .grpname {
+  margin-left: 0px;
+}
+
+.popup aside .nextbox .grpname span {
+  /* background: blue; */
+  margin-left: auto;
+  display: flex;
+  height: 40px;
+  width: 40px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.popup aside .nextbox .grpname span i {
+  border: 1px solid #888;
+  color: #888;
+  width: 30px;
+  height: 28px;
+  line-height: 28px;
+  font-size: 1em;
+  text-align: center;
+  border-radius: 50%;
+}
+.popup aside .nextbox .grpname span:active i {
+  background: #888;
+  color: #ddd;
+  border-color: #ddd;
+}
+.popup aside .nextbox input.name {
+  border: none;
+  position: static;
+  background: #ddd;
+  width: calc(100% - 40px);
+  color: #888;
+  cursor: text;
+  font-size: 0.9em;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.popup aside .nextbox button.start {
+  border: 2px solid #245069;
+  color: #245069;
+  flex-shrink: 0;
+  min-height: 40px;
+  box-sizing: border-box;
+  /* background: rgba(124, 46, 46, 0.2); */
+}
+.popup aside button.start.inactive {
+  opacity: 0.6;
+}
+.popup aside button .loading {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  position: absolute;
+  background: rgba(250, 250, 250, 0.5);
+  background: rgba(0, 0, 0, 0.9);
+}
+.popup aside button .loading span {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 20px;
+  width: 80px;
+  margin: auto;
+}
+.popup aside button .loading span i {
+  display: block;
+  width: 5px;
+  height: 100%;
+  border-radius: 5px;
+  background: #7c2e2e;
+  background: white;
+  animation: rebound 0.5s ease 0s infinite alternate;
+}
+.popup aside button .loading span i:nth-child(2),
+.popup aside button .loading span i:nth-child(4) {
+  animation: rebound 0.5s ease 0.25s infinite alternate;
+}
+
+@keyframes rebound {
+  0% {
+    height: 100%;
+  }
+  100% {
+    height: 5px;
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "createdOn": "Sat Jul 18 2020 13:51:29 GMT+0100 (West Africa Standard Time)",
+  "createdBy": "1595076661183lByQGbrqz9S3blxRi",
+  "chatId": "1595076689186t6SKv0mkdVKl5pgoA",
+  "members": [
+    "1595076661183lByQGbrqz9S3blxRi",
+    "1595076568687Gz5Uz6fUUYFUWyRjH"
+  ],
+  "type": "private",
+  "transfers": [
+    {
+      "link": "/download/1595076689186t6SKv0mkdVKl5pgoA/gI0RHhXdmcMhG70JMxrf",
+      "time": "2020-07-18T12:59:10Z",
+      "name": "1595077150580_Car For Jane.png",
+      "realName": "Car For Jane.png",
+      "sender": "1595076661183lByQGbrqz9S3blxRi",
+      "senderimage": "/images/user/1595076661183lByQGbrqz9S3blxRi",
+      "size": "146.34kb",
+      "fileId": "gI0RHhXdmcMhG70JMxrf",
+      "seen": [
+        "1595076661183lByQGbrqz9S3blxRi",
+        "1595076568687Gz5Uz6fUUYFUWyRjH"
+      ]
+    },
+    {
+      "link": "/download/1595076689186t6SKv0mkdVKl5pgoA/MtN8OUWJyqsEmWqiVM6q",
+      "time": "2020-07-18T13:00:07Z",
+      "name": "1595077207338_porsche-008s.jpg",
+      "realName": "porsche-008s.jpg",
+      "sender": "1595076568687Gz5Uz6fUUYFUWyRjH",
+      "senderimage": "/images/user/1595076568687Gz5Uz6fUUYFUWyRjH",
+      "size": "109.24kb",
+      "fileId": "MtN8OUWJyqsEmWqiVM6q",
+      "seen": [
+        "1595076568687Gz5Uz6fUUYFUWyRjH",
+        "1595076661183lByQGbrqz9S3blxRi"
+      ]
+    },
+    {
+      "link": "/download/1595076689186t6SKv0mkdVKl5pgoA/MQ7Yb6D0kH7wuzPUsgMJ",
+      "time": "2020-07-18T13:01:10Z",
+      "name": "1595077270086_Screenshot1 for jane.png",
+      "realName": "Screenshot1 for jane.png",
+      "sender": "1595076661183lByQGbrqz9S3blxRi",
+      "senderimage": "/images/user/1595076661183lByQGbrqz9S3blxRi",
+      "size": "20.69kb",
+      "fileId": "MQ7Yb6D0kH7wuzPUsgMJ",
+      "seen": [
+        "1595076661183lByQGbrqz9S3blxRi",
+        "1595076568687Gz5Uz6fUUYFUWyRjH"
+      ]
+    },
+    {
+      "link": "/download/1595076689186t6SKv0mkdVKl5pgoA/YbewoUoG1Ywu2sFmVuFt",
+      "time": "2020-07-18T13:01:50Z",
+      "name": "1595077310440_Tesla model s.jpg",
+      "realName": "Tesla model s.jpg",
+      "sender": "1595076661183lByQGbrqz9S3blxRi",
+      "senderimage": "/images/user/1595076661183lByQGbrqz9S3blxRi",
+      "size": "16.03kb",
+      "fileId": "YbewoUoG1Ywu2sFmVuFt",
+      "seen": [
+        "1595076661183lByQGbrqz9S3blxRi",
+        "1595076568687Gz5Uz6fUUYFUWyRjH"
+      ]
+    },
+    {
+      "link": "/download/1595076689186t6SKv0mkdVKl5pgoA/JkhVp0gEcoAGD2FltNtv",
+      "time": "2020-07-18T13:02:48Z",
+      "name": "1595077368011_TSLA_model3.png",
+      "realName": "TSLA_model3.png",
+      "sender": "1595076661183lByQGbrqz9S3blxRi",
+      "senderimage": "/images/user/1595076661183lByQGbrqz9S3blxRi",
+      "size": "146.34kb",
+      "fileId": "JkhVp0gEcoAGD2FltNtv",
+      "seen": [
+        "1595076661183lByQGbrqz9S3blxRi",
+        "1595076568687Gz5Uz6fUUYFUWyRjH"
+      ]
+    }
+  ],
+  "muted": [],
+  "archived": []
+}

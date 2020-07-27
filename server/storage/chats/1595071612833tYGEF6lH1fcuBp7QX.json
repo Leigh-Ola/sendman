@@ -1,0 +1,32 @@
+{
+  "createdOn": "Sat Jul 18 2020 12:26:52 GMT+0100 (West Africa Standard Time)",
+  "createdBy": "1595071228118GBiku01ta7aTEOX7M",
+  "groupName": "Doe Gang",
+  "image": "/images/group/default",
+  "chatId": "1595071612833tYGEF6lH1fcuBp7QX",
+  "members": [
+    "1595071228118MBiku01asdfghjkll",
+    "1595071228118KBiku01qwertyuiop",
+    "1595071228118GBiku01ta7aTEOX7M"
+  ],
+  "type": "group",
+  "transfers": [
+    {
+      "link": "/download/1595071612833tYGEF6lH1fcuBp7QX/P64lobiW9LgJq0VgaAHq",
+      "time": "2020-07-18T12:20:17Z",
+      "name": "1595074817302_models.jpg",
+      "realName": "models.jpg",
+      "sender": "1595071228118GBiku01ta7aTEOX7M",
+      "senderimage": "/images/user/1595071228118GBiku01ta7aTEOX7M",
+      "size": "16.03kb",
+      "fileId": "P64lobiW9LgJq0VgaAHq",
+      "seen": [
+        "1595071228118GBiku01ta7aTEOX7M",
+        "1595071228118MBiku01asdfghjkll"
+      ]
+    }
+  ],
+  "muted": [],
+  "archived": [],
+  "seen": []
+}

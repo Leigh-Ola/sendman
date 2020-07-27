@@ -1,0 +1,478 @@
+@font-face {
+  font-family: Timeless;
+  src: url("../../Fonts/Normal/timeless/Timeless.ttf");
+  /* newspaper, m */
+}
+@font-face {
+  font-family: Quicksand;
+  src: url("../../Fonts/Normal/quicksand/Quicksand.otf");
+  /* perfect informal, l */
+}
+@font-face {
+  font-family: Josefin;
+  src: url("../../Fonts/Normal/josefin-sans/JosefinSans.ttf");
+  /* Good but thin handwriting, m */
+}
+@font-face {
+  font-family: Comfortaa;
+  src: url("../../Fonts/Normal/comfortaa/Comfortaa.ttf");
+  /* informal, l */
+}
+@font-face {
+  font-family: Titillium;
+  src: url("../../Fonts/Formal/titillium-web/TitilliumWeb-Regular.ttf");
+  /* perfect formal, m */
+}
+
+body {
+  display: flex;
+  padding: 20px 0px;
+  margin: 0px;
+  font-size: 100%;
+  font-family: Comortaa, Georgia, "Times New Roman", Times, serif;
+  background: rgb(12, 3, 12);
+}
+
+main#app {
+  display: flex;
+  width: 90%;
+  max-width: 1000px;
+  margin: auto;
+  background: white;
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+main .card {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 650px;
+  width: 500px;
+  max-width: 600px;
+  margin: auto 0px;
+  background: white;
+  padding: 20px 0px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: 1px solid black;
+  border: none;
+}
+
+.card .dpbox {
+  width: 400px;
+  height: 400px;
+  margin: 0px auto;
+  border-radius: 50%;
+  overflow: visible;
+  display: flex;
+  position: relative;
+}
+.card .dpbox.border {
+  border: 1px solid #eee;
+}
+.card .dpbox .cover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  position: absolute;
+  background: white;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: auto;
+}
+.card .dpbox img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: auto;
+  position: absolute;
+  z-index: 3;
+  opacity: 1;
+}
+.card .dpbox img.hide {
+  opacity: 0;
+}
+
+.card .dpbox .new {
+  display: flex;
+  width: 50px;
+  height: 50px;
+  bottom: 10px;
+  right: 10px;
+  /* background: red; */
+  color: #245069;
+  border-radius: 50%;
+  border: 2px solid #245069;
+  overflow: hidden;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+}
+
+.card .dpbox .new i {
+  position: relative;
+  margin: auto;
+  display: block;
+  font-size: 2em;
+}
+.card .dpbox .new .above {
+  position: absolute;
+  margin: auto;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 90%;
+  z-index: 2;
+  background: white;
+  border: 1px solid black;
+  box-sizing: border-box;
+}
+.card .dpbox .new input {
+  opacity: 0;
+}
+
+.card h1 {
+  font-size: 1.85em;
+  letter-spacing: 0.22em;
+  margin: 1em 0;
+  font-weight: normal;
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: #313f47;
+  font-family: Timeless, "Source Sans Pro", Helvetica, sans-serif;
+}
+.card .bio {
+  display: block;
+  width: 90%;
+  margin: 0px auto;
+  text-align: center;
+  color: #313f47;
+  font-size: 1.1em;
+  font-weight: lighter;
+  font-family: Quicksand, "Source Sans Pro", Helvetica, sans-serif;
+}
+
+#app .settings {
+  display: flex;
+  flex-flow: column nowrap;
+  flex-grow: 1;
+  flex-shrink: 0;
+  margin-bottom: 20px;
+  padding: 10px 20px 20px 10px;
+  height: 100%;
+  min-height: 650px;
+  max-height: 650px;
+  overflow: hidden;
+  overflow-y: scroll;
+  background: white;
+  box-sizing: border-box;
+}
+
+.settings .group {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  flex-grow: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  border: 1px solid #eee;
+  border-color: #245069;
+  margin-top: 20px;
+  border-radius: 3px;
+  position: relative;
+  box-sizing: border-box;
+  padding: 9px;
+}
+.settings .group:last-of-type {
+  margin-bottom: 20px;
+}
+.settings .group header {
+  padding: 3px;
+  position: absolute;
+  left: 10px;
+  top: calc(-0.85em);
+  min-width: 4px;
+  max-width: fit-content;
+  display: block;
+  text-transform: uppercase;
+  width: auto;
+  min-width: auto;
+  letter-spacing: 1px;
+  color: #245069;
+  background: white;
+  font-size: 0.85em;
+}
+
+.settings .group input {
+  width: 100%;
+  /* max-width: 200px; */
+  height: 30px;
+  box-sizing: border-box;
+  padding: 5px;
+  margin: 7px 0px;
+  border-radius: 3px;
+  border: 1px solid #245069;
+  font-family: Quicksand, "Source Sans Pro", Helvetica, sans-serif;
+}
+.settings .group textarea {
+  width: 100%;
+  min-width: 200px;
+  max-width: 100%;
+  min-height: 50px;
+  box-sizing: border-box;
+  padding: 5px;
+  margin: 7px 0px;
+  border-radius: 3px;
+  border: 1px solid #245069;
+  font-family: Quicksand, "Source Sans Pro", Helvetica, sans-serif;
+}
+.settings .group .item {
+  display: flex;
+  width: 200px;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  min-height: 1.5em;
+  box-sizing: border-box;
+  margin: 3px 0px;
+  padding-left: 3px;
+  border-left: 2px solid #245069;
+  align-items: center;
+}
+.settings .group .item:hover {
+  background: #eee;
+}
+.settings .group .item span {
+  flex-grow: 1;
+  word-wrap: break-word;
+  word-break: break-all;
+  font-family: Titillium, "Source Sans Pro", Helvetica, sans-serif;
+  /* background: red; */
+}
+.settings .group .item i {
+  cursor: pointer;
+  padding: 3px;
+  flex-shrink: 0;
+  color: maroon;
+}
+
+.settings .group .inputbox {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+.settings .group .inputbox label {
+  align-self: flex-start;
+  font-size: 0.85em;
+  margin: auto auto auto 0px;
+  /* font-family: Comfortaa, Josefin, Georgia, "Times New Roman", Times, serif; */
+}
+.settings .group .inputbox input {
+  flex-shrink: 0;
+  align-self: flex-end;
+  display: block;
+  max-width: 200px;
+  width: 200px;
+}
+.settings .group input.add {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #245069;
+  background: #eee;
+}
+.settings .group ins {
+  font-size: 0.7em;
+  color: #245069;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  width: 100%;
+  max-width: 200px;
+}
+.settings .group ins.error {
+  color: maroon;
+}
+
+.settings .group button {
+  width: 100%;
+  max-width: 200px;
+  box-sizing: border-box;
+  padding: 5px;
+  margin-top: 3px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.settings .group button.new {
+  cursor: pointer;
+  color: #245069;
+  background: #c1dcec;
+  border: 1px solid #245069;
+}
+.settings .group button.new:active {
+  background: #6da3c2;
+}
+.settings .group button.submit {
+  cursor: pointer;
+  color: white;
+  background: #245069;
+  border: 1px solid #245069;
+}
+.settings .group button:active {
+  background: #16303f;
+}
+.settings .group button.disabled {
+  opacity: 0.5;
+}
+
+/* privacy */
+.settings .group .privacybox {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  margin: 10px 0px;
+  width: 100%;
+  height: auto;
+}
+.settings .group .privacybox .questionbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.settings .group .privacybox .ans {
+  background: #d0e4f0;
+  text-transform: capitalize;
+  padding: 5px;
+  margin-top: auto;
+  cursor: pointer;
+  flex-shrink: 0;
+  border-radius: 3px 0px 0px 3px;
+  font-family: Titillium, "Courier New", Courier, monospace;
+}
+.settings .group .privacybox .ans:hover {
+  background: #c1dcec;
+}
+.settings .group .privacybox .ans i {
+  font-size: 0.9em;
+}
+.settings .group .privacybox .options {
+  display: flex;
+  flex-flow: row wrap;
+  border-radius: 3px;
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  background: #d0e4f0;
+  overflow: hidden;
+  border-radius: 3px;
+  overflow: hidden;
+  justify-content: space-evenly;
+  align-items: center;
+  height: auto;
+  padding: 5px;
+  transition: all 0.3s ease;
+}
+.settings .group .privacybox .option {
+  display: flex;
+  width: 33%;
+  box-sizing: border-box;
+  padding: 5px;
+  flex-flow: column nowrap;
+  cursor: pointer;
+  font-family: Titillium, "Courier New", Courier, monospace;
+  align-items: center;
+  justify-content: flex-start;
+}
+.settings .group .privacybox .option:active {
+  background: rgba(0, 0, 0, 0.3);
+}
+.settings .group .privacybox .option span {
+  margin-top: auto;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+/* phone  */
+@media only screen and (max-width: 799px) {
+  main#app {
+    width: 95%;
+    flex-flow: column nowrap;
+  }
+  main .card {
+    margin: 0px auto;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+  }
+  .card .dpbox {
+    width: 200px;
+    height: 200px;
+  }
+  .card .dpbox .new {
+    display: flex;
+    width: 25px;
+    height: 25px;
+    bottom: 4px;
+    right: 4px;
+  }
+  .card .dpbox .new i {
+    font-size: 1.1em;
+  }
+  #app .settings {
+    height: fit-content;
+    min-height: 650px;
+    max-height: fit-content;
+    overflow: hidden;
+    overflow-y: hidden;
+    align-items: center;
+  }
+  .settings .group .privacybox .options {
+    height: 0px;
+    padding: 0px;
+    transition: all 0.3s ease;
+  }
+  .settings .group .privacybox .options.show {
+    height: auto;
+    padding: 5px;
+  }
+}
+
+/* tablet */
+@media only screen and (min-width: 800px) {
+  @media only screen and (max-width: 1199px) {
+    main .card {
+      max-width: 50%;
+    }
+    .card .dpbox {
+      width: 300px;
+      height: 300px;
+    }
+    .card .dpbox .new {
+      display: flex;
+      width: 40px;
+      height: 40px;
+      bottom: 6px;
+      right: 6px;
+    }
+    .card .dpbox .new i {
+      font-size: 1.6em;
+    }
+    #app .settings {
+      align-items: center;
+    }
+  }
+}
+
+[v-cloak],
+* [v-cloak] {
+  opacity: 0;
+}
