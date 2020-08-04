@@ -19,6 +19,8 @@ function createUser(o) {
     password: o.password,
     mainEmail: o.email,
     emails: [o.email],
+    darkmode: false,
+    joined: new Date().toISOString(),
     id: o.id,
     image: "/images/user/" + o.id,
     bio: "",

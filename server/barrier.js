@@ -53,7 +53,16 @@ var wrapper = function() {
       res.locals.barrier = {
         authenticated: true
       };
-      res.cookie("barrier_auth_id", user.auth_id);
+      /* {
+         maxAge: 1000 * 60 * 60 * 24 * 3,
+         secure: true,
+         sameSite: true
+       } */
+      res.cookie("barrier_auth_id", user.auth_id, {
+        maxAge: 1000 * 60 * 60 * 24 * 3,
+        httpOnly: true,
+        secure: true
+      });
       // ^ save cookie for user session
       return next();
     };
@@ -67,6 +76,7 @@ var wrapper = function() {
       barrier = true;
     }
     let cookies = req.cookies;
+
     // console.log("cookies >> ", JSON.stringify(cookies));
     // console.log("session >> ", JSON.stringify(user));
     if (

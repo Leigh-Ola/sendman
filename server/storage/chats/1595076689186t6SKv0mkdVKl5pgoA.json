@@ -37,34 +37,6 @@
       ]
     },
     {
-      "link": "/download/1595076689186t6SKv0mkdVKl5pgoA/MQ7Yb6D0kH7wuzPUsgMJ",
-      "time": "2020-07-18T13:01:10Z",
-      "name": "1595077270086_Screenshot1 for jane.png",
-      "realName": "Screenshot1 for jane.png",
-      "sender": "1595076661183lByQGbrqz9S3blxRi",
-      "senderimage": "/images/user/1595076661183lByQGbrqz9S3blxRi",
-      "size": "20.69kb",
-      "fileId": "MQ7Yb6D0kH7wuzPUsgMJ",
-      "seen": [
-        "1595076661183lByQGbrqz9S3blxRi",
-        "1595076568687Gz5Uz6fUUYFUWyRjH"
-      ]
-    },
-    {
-      "link": "/download/1595076689186t6SKv0mkdVKl5pgoA/YbewoUoG1Ywu2sFmVuFt",
-      "time": "2020-07-18T13:01:50Z",
-      "name": "1595077310440_Tesla model s.jpg",
-      "realName": "Tesla model s.jpg",
-      "sender": "1595076661183lByQGbrqz9S3blxRi",
-      "senderimage": "/images/user/1595076661183lByQGbrqz9S3blxRi",
-      "size": "16.03kb",
-      "fileId": "YbewoUoG1Ywu2sFmVuFt",
-      "seen": [
-        "1595076661183lByQGbrqz9S3blxRi",
-        "1595076568687Gz5Uz6fUUYFUWyRjH"
-      ]
-    },
-    {
       "link": "/download/1595076689186t6SKv0mkdVKl5pgoA/JkhVp0gEcoAGD2FltNtv",
       "time": "2020-07-18T13:02:48Z",
       "name": "1595077368011_TSLA_model3.png",
@@ -77,8 +49,26 @@
         "1595076661183lByQGbrqz9S3blxRi",
         "1595076568687Gz5Uz6fUUYFUWyRjH"
       ]
+    },
+    {
+      "link": "/download/1595076689186t6SKv0mkdVKl5pgoA/ZFTMvdSISLPqFehRfVU0",
+      "time": "2020-07-25T15:03:36Z",
+      "name": "1595689416564_favicons.zip",
+      "realName": "favicons.zip",
+      "sender": "1595076661183lByQGbrqz9S3blxRi",
+      "senderimage": "/images/user/1595076661183lByQGbrqz9S3blxRi",
+      "size": "2.75kb",
+      "fileId": "ZFTMvdSISLPqFehRfVU0",
+      "seen": [
+        "1595076661183lByQGbrqz9S3blxRi"
+      ]
     }
   ],
-  "muted": [],
-  "archived": []
+  "muted": [
+    "1595076661183lByQGbrqz9S3blxRi"
+  ],
+  "archived": [],
+  "pinned": [
+    "1595076661183lByQGbrqz9S3blxRi"
+  ]
 }

@@ -31,17 +31,27 @@ app.use(
 app.use(bodyParser.json());
 
 // allow use of cookies
-app.use(cookieParser());
+app.use(
+  cookieParser("sendmancookiesss", {
+    secure: true
+  })
+);
+/**
+ * "sendmancookiesss", {
+    secure: true,
+    sameSite: "Strict"
+  }
+ */
 
 // track logged in user across sessions
 app.use(
   expressSession({
     key: "session_id",
     secret: "sendmansecretapp",
-    resave: false,
+    resave: true,
     saveUninitialized: false,
     cookie: {
-      expires: 1000 * 60 * 60 * 24 // millisecs
+      sameSite: "strict"
     }
   })
 );

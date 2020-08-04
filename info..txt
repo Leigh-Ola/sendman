@@ -1,3 +1,29 @@
-// group privacy
-// notifications
+// group privacy *
+// notifications *
 // group db randomly being emptied?
+
+// keeps logging out *
+// change tab header image & color *
+// change 'change pasword' styling in settings page
+// should be able to search by name, number and email *
+// change 'no chats yet' screen to something like "Open a message!" * 
+// should be able to pin chat *
+// give user more feedback on mute/unmute *
+// should be able to delete a transfer *
+// fix overflow issues for long file names *
+// dark mode in settings ( & when creating a new user ) *
+// 'back' arrow or icon in settings page *
+
+// admin panel
+// block, complain, clear chat for each chat
+// verify user
+// change login/signup scheme
+// email address verification 
+// forgot password
+
+// translate???
+
+
+/*
+    * = done
+*/

@@ -38,7 +38,6 @@ router.get("/:chatId/:fileId", async (req, res, next) => {
   );
   // console.log(`Downloading '${fName}' at '${fPath}'`);
   res.download(fPath, fName);
-  // res.status(200).json({ done: true, data: "a file should be here" });
 });
 
 module.exports = router;

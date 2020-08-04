@@ -1,6 +1,8 @@
 {
   "1595076568687Gz5Uz6fUUYFUWyRjH": {
     "username": "Jane Doe",
+    "createdOn": "2020-07-17T18:29:18.564Z",
+    "darkmode": false,
     "numbers": [
       "09087654321"
     ],
@@ -20,6 +22,15 @@
     "contacts": [],
     "chats": [
       {
+        "type": "group",
+        "recipients": [
+          "1595076568687Gz5Uz6fUUYFUWyRjH",
+          "1595599142014qYbJmaQNERSeqFblB",
+          "1595076661183lByQGbrqz9S3blxRi"
+        ],
+        "chatId": "1595789231707A5zpsok2Vdv8mh6aX"
+      },
+      {
         "type": "private",
         "recipient": "1595076661183lByQGbrqz9S3blxRi",
         "chatId": "1595076689186t6SKv0mkdVKl5pgoA"
@@ -28,6 +39,8 @@
   },
   "1595076661183lByQGbrqz9S3blxRi": {
     "username": "John Doe",
+    "createdOn": "2020-07-17T18:29:18.564Z",
+    "darkmode": "false",
     "numbers": [
       "09012345678"
     ],
@@ -39,7 +52,7 @@
     "id": "1595076661183lByQGbrqz9S3blxRi",
     "image": "/images/user/1595076661183lByQGbrqz9S3blxRi",
     "bio": "this is my bio",
-    "lastSeen": "2020-07-18T18:27:39.534Z",
+    "lastSeen": "2020-08-04T17:53:24.759Z",
     "privacy": {
       "group": "friends",
       "profile": "no one"
@@ -47,9 +60,62 @@
     "contacts": [],
     "chats": [
       {
+        "type": "group",
+        "recipients": [
+          "1595076568687Gz5Uz6fUUYFUWyRjH",
+          "1595599142014qYbJmaQNERSeqFblB",
+          "1595076661183lByQGbrqz9S3blxRi"
+        ],
+        "chatId": "1595789231707A5zpsok2Vdv8mh6aX"
+      },
+      {
         "type": "private",
         "recipient": "1595076568687Gz5Uz6fUUYFUWyRjH",
         "chatId": "1595076689186t6SKv0mkdVKl5pgoA"
+      },
+      {
+        "type": "private",
+        "recipient": "1595599142014qYbJmaQNERSeqFblB",
+        "chatId": "1595599275468btSPliaNGYHETtAYr"
+      }
+    ]
+  },
+  "1595599142014qYbJmaQNERSeqFblB": {
+    "username": "Fake Doe",
+    "createdOn": "2020-07-26T18:29:18.564Z",
+    "darkmode": "true",
+    "numbers": [
+      "08023435363"
+    ],
+    "password": "testuser",
+    "mainEmail": "test3@user.com",
+    "emails": [
+      "test3@user.com"
+    ],
+    "id": "1595599142014qYbJmaQNERSeqFblB",
+    "image": "/images/user/1595599142014qYbJmaQNERSeqFblB",
+    "bio": "",
+    "lastSeen": "2020-07-26T16:15:52.113Z",
+    "privacy": {
+      "group": "friends",
+      "profile": "no one"
+    },
+    "contacts": [],
+    "chats": [],
+    "chatsx": [
+      {
+        "type": "group",
+        "recipients": [
+          "1595076568687Gz5Uz6fUUYFUWyRjH",
+          "1595599142014qYbJmaQNERSeqFblB",
+          "1595076661183lByQGbrqz9S3blxRi"
+        ],
+        "chatId": "1595789231707A5zpsok2Vdv8mh6aX"
+      },
+      {
+        "type": "private",
+        "recipient": "1595076661183lByQGbrqz9S3blxRi",
+        "chatId": "1595599275468btSPliaNGYHETtAYr"
       }
     ]
   }

@@ -18,10 +18,9 @@ router.post("/private", async (req, res) => {
   let rec = db.get(recipientId);
   let me = db.get(id);
   if (!rec.value()) {
-    return res.status(200).send({
-      done: false,
-      error: `User with id: '${recipientId}' does not exist`
-    });
+    return res
+      .status(400)
+      .send(`User with id: '${recipientId}' does not exist`);
   }
   let recChats = rec.get("chats");
   let chatId = utils.randomString(30);
@@ -59,7 +58,6 @@ router.post("/private", async (req, res) => {
       myObj = myObj2;
     }
     // console.log(myChats.value());
-    // return res.status(200).json({ done: true });
     myChats
       .remove(v => {
         // console.log(v);
@@ -78,7 +76,8 @@ router.post("/private", async (req, res) => {
         type: "private",
         transfers: [],
         muted: [],
-        archived: []
+        archived: [],
+        pinned: []
       })
       .write();
   }
@@ -95,7 +94,7 @@ router.post("/private", async (req, res) => {
     //   `Done >> Started: ${chatId} >> '${id}' chatting with ${recipientId}`
     // );
   }
-  res.status(200).json({ done: true });
+  res.status(200).send();
 });
 
 router.post("/group", async (req, res) => {
@@ -107,10 +106,7 @@ router.post("/group", async (req, res) => {
 
   let isGroupNameValid = Boolean(validator.groupName(groupName).length == 0);
   if (!isGroupNameValid) {
-    return res.status(200).send({
-      done: false,
-      error: `Invalid value for group name : '${groupName}'`
-    });
+    return res.status(200).send(`Invalid group name : '${groupName}'`);
   }
 
   let db = database.connect("users");
@@ -124,7 +120,7 @@ router.post("/group", async (req, res) => {
   let chatDb = await database.connectChat(chatId);
   chatDb
     .setState({
-      createdOn: new Date().toString(),
+      createdOn: new Date().toISOString(),
       createdBy: id,
       groupName,
       image: "/images/group/default",
@@ -133,19 +129,36 @@ router.post("/group", async (req, res) => {
       type: "group",
       transfers: [],
       muted: [],
-      archived: []
+      archived: [],
+      pinned: []
     })
     .write();
 
   for (let recipientId of recipientsId) {
     let rec = db.get(recipientId);
     if (!rec.value()) {
-      return res.status(200).send({
-        done: false,
-        error: `User with id: '${recipientId}' does not exist`
-      });
+      return res
+        .status(400)
+        .send(`User with id: '${recipientId}' does not exist`);
     }
+    let whoCanAdd = String(rec.get("privacy.group").value()).toLowerCase();
+    // anyone, friends, no one
+    let allowed = whoCanAdd == "anyone" ? true : false;
     let rc = rec.get("chats").value();
+    if (whoCanAdd == "friends") {
+      for (let chat of rc) {
+        if (chat.type == "private" && chat.recipient == id) {
+          allowed = true;
+          break;
+        }
+      }
+    }
+    if (!allowed) {
+      let rn = rec.get("username").value();
+      return res
+        .status(400)
+        .send(`You are not allowed to add ${rn} to a group`);
+    }
     rc.unshift(obj);
     rec.set("chats", rc).write();
   }
@@ -157,7 +170,7 @@ router.post("/group", async (req, res) => {
   // console.log(
   //   `Done >> Started: group ${groupName} : ${chatId} >> '${id}' chatting with ${members}`
   // );
-  res.status(200).json({ done: true });
+  res.status(200).send();
 });
 
 module.exports = router;

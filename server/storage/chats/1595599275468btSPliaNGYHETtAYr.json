@@ -1,0 +1,29 @@
+{
+  "createdOn": "Fri Jul 24 2020 15:01:15 GMT+0100 (West Africa Standard Time)",
+  "createdBy": "1595599142014qYbJmaQNERSeqFblB",
+  "chatId": "1595599275468btSPliaNGYHETtAYr",
+  "members": [
+    "1595599142014qYbJmaQNERSeqFblB",
+    "1595076661183lByQGbrqz9S3blxRi"
+  ],
+  "type": "private",
+  "transfers": [
+    {
+      "link": "/download/1595599275468btSPliaNGYHETtAYr/YfzDd9blh2PBX3K9hXAL",
+      "time": "2020-07-24T14:01:53Z",
+      "name": "1595599313597_welcomeCar.jpg",
+      "realName": "welcomeCar.jpg",
+      "sender": "1595599142014qYbJmaQNERSeqFblB",
+      "senderimage": "/images/user/1595599142014qYbJmaQNERSeqFblB",
+      "size": "16.03kb",
+      "fileId": "YfzDd9blh2PBX3K9hXAL",
+      "seen": [
+        "1595599142014qYbJmaQNERSeqFblB",
+        "1595076661183lByQGbrqz9S3blxRi"
+      ]
+    }
+  ],
+  "muted": [],
+  "archived": [],
+  "pinned": []
+}

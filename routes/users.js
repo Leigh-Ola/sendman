@@ -20,7 +20,10 @@ const availableParamsForMe = [
   "username",
   "muted",
   "archived",
-  "lastSeen"
+  "pinned",
+  "lastSeen",
+  "darkmode",
+  "createdOn"
 ];
 const availableParamsForAll = [
   "id",
@@ -29,7 +32,8 @@ const availableParamsForAll = [
   "image",
   "bio",
   "username",
-  "lastSeen"
+  "lastSeen",
+  "createdOn"
 ];
 
 router.get("/", (req, res) => {
@@ -46,6 +50,13 @@ router.get("/", (req, res) => {
   let db = database.connect("users");
   let val = Object.values(db.getState());
   val = filter(val, searhQuery, id).slice(0, 20);
+  val = val.map(user => {
+    let ans = {};
+    availableParamsForAll.forEach(v => {
+      ans[v] = user[v];
+    });
+    return ans;
+  });
   res.status(200).json({ done: true, data: val });
 });
 
@@ -59,6 +70,8 @@ function filter(arr, q, self) {
     if ((self && user.id == self) || !user) {
       continue;
     }
+
+    // search by names
     let name = user.type == "group" ? user.groupname : user.username;
     if (
       name
@@ -68,6 +81,34 @@ function filter(arr, q, self) {
     ) {
       ans.push(user);
       continue;
+    }
+    if (user.type == "group") {
+      continue;
+    }
+
+    // search by email
+    let foundByEmail = false;
+    let emails = user.emails;
+    for (let email of emails) {
+      if (String(email).indexOf(q) >= 0) {
+        ans.push(user);
+        foundByEmail = true;
+        continue;
+      }
+    }
+    if (foundByEmail) {
+      continue;
+    }
+
+    // search by number (query must be at least 5 chars long)
+    if (!isNaN(Number(q)) && q.length >= 5) {
+      let numbers = user.numbers;
+      for (let num of numbers) {
+        if (String(num).indexOf(q) >= 0) {
+          ans.push(user);
+          continue;
+        }
+      }
     }
   }
   return ans;
@@ -140,35 +181,49 @@ router.get("/self/:key", async (req, res) => {
 
 async function getUsers(arr, db, id) {
   let ans = [];
+  let pinned = [];
 
   for (let ui in arr) {
     let u = arr[ui];
     if (u.type == "private") {
-      let chat = db.get(u.recipient);
-      let user = chat.pick(availableParamsForAll).value();
-      // user = current recipient ( chat.recipient );
-      if (!!user) {
-        let chatDb = await database.connectChat(u.chatId);
-        let transfers = chatDb.get("transfers");
-        let lastFile = transfers.last();
-        // console.log("private " + u.chatId);
-        user.count = getUnseenCount(transfers, id);
-        user.type = u.type;
-        user.chatId = u.chatId;
-        user.muted = chatDb
-          .get("muted")
-          .value()
-          .includes(id);
-        user.archived = chatDb
-          .get("archived")
-          .value()
-          .includes(id);
-        user.members = chatDb.get("members").value().length;
-        user.filename = lastFile.get("realName").value();
-        user.time = lastFile.get("time").value();
-        user.online = isOnline(user.lastSeen);
-        user = privatize(user, chat, id);
-        ans.push(user);
+      try {
+        let chat = db.get(u.recipient);
+        let user = chat.pick(availableParamsForAll).value();
+        // user = current recipient ( chat.recipient );
+        if (!!user) {
+          let chatDb = await database.connectChat(u.chatId);
+          let transfers = chatDb.get("transfers");
+          let lastFile = transfers.last();
+          // console.log("private " + u.chatId);
+          user.count = getUnseenCount(transfers, id);
+          user.type = u.type;
+          user.chatId = u.chatId;
+          user.muted = chatDb
+            .get("muted")
+            .value()
+            .includes(id);
+          user.archived = chatDb
+            .get("archived")
+            .value()
+            .includes(id);
+          let isPinned = chatDb
+            .get("pinned")
+            .value()
+            .includes(id);
+          user.pinned = isPinned ? true : false;
+          user.members = chatDb.get("members").value().length;
+          user.filename = lastFile.get("realName").value();
+          user.time = lastFile.get("time").value();
+          user.online = isOnline(user.lastSeen);
+          user = privatize(user, chat, id);
+          if (isPinned) {
+            pinned.push(user);
+          } else {
+            ans.push(user);
+          }
+        }
+      } catch (error) {
+        // ???
       }
     } else if (u.type == "group") {
       try {
@@ -181,6 +236,7 @@ async function getUsers(arr, db, id) {
         user.count = getUnseenCount(transfers, id);
         user.type = u.type;
         user.id = user.chatId = u.chatId;
+        user.createdOn = chatDb.get("createdOn");
         user.muted = chatDb
           .get("muted")
           .value()
@@ -189,6 +245,11 @@ async function getUsers(arr, db, id) {
           .get("archived")
           .value()
           .includes(id);
+        let isPinned = chatDb
+          .get("pinned")
+          .value()
+          .includes(id);
+        user.pinned = isPinned ? true : false;
         user.members = chatDb.get("members").value();
         user.members = user.members.map(v => {
           return db.get(v + ".username").value();
@@ -197,13 +258,17 @@ async function getUsers(arr, db, id) {
         user.time = lastFile.get("time").value();
         user.groupname = chatDb.get("groupName").value();
         user.image = chatDb.get("image");
-        ans.push(user);
+        if (isPinned) {
+          pinned.push(user);
+        } else {
+          ans.push(user);
+        }
       } catch (error) {
         // ???
       }
     }
   }
-  return ans;
+  return pinned.concat(ans);
 }
 
 function getUnseenCount(tf, id) {
@@ -274,7 +339,9 @@ router.post("/self/:key", async (req, res) => {
     "bio",
     "username",
     "muted",
-    "archived"
+    "archived",
+    "darkmode",
+    "pinned"
   ];
   if (!writable.includes(key)) {
     return res.status(400).send(`Invalid parameter : '${key}'`);
@@ -290,7 +357,10 @@ router.post("/self/:key", async (req, res) => {
           .value()
       )
       ? []
-      : [0];
+      : [`Unable to get chat '${cid}'`];
+  }
+  function nullValidator(val) {
+    return [];
   }
   switch (key) {
     case "username":
@@ -317,13 +387,21 @@ router.post("/self/:key", async (req, res) => {
     case "archived":
       var validate = checkChatExists;
       break;
+    case "pinned":
+      var validate = checkChatExists;
+      break;
+    case "darkmode":
+      var validate = nullValidator;
+      break;
     default:
       break;
   }
   let add = true,
     rem = false;
-  let isValArr = ["emails", "numbers", "muted", "archived"].includes(key);
-  let isChatSetting = ["muted", "archived"].includes(key);
+  let isValArr = ["emails", "numbers", "muted", "archived", "pinned"].includes(
+    key
+  );
+  let isChatSetting = ["muted", "archived", "pinned"].includes(key);
   let errors = validate(val);
   if (errors.length) {
     add = false;
