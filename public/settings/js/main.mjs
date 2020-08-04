@@ -4,6 +4,7 @@ import { template as v_emails } from "./templates/emails.mjs";
 import { template as v_numbers } from "./templates/numbers.mjs";
 import { template as v_password } from "./templates/password.mjs";
 import { template as v_privacy } from "./templates/privacy.mjs";
+import { template as v_darkmode } from "./templates/darkmode.mjs";
 
 // seed data
 // import seed from "./seed.mjs";
@@ -13,7 +14,8 @@ var app = new Vue({
   data: {
     settings: {
       name: "",
-      bio: ""
+      bio: "",
+      darkMode: false
     },
     validExtensions: ["png", "jpg", "jpeg"],
     loading: false,
@@ -25,12 +27,16 @@ var app = new Vue({
     "v-emails": v_emails,
     "v-numbers": v_numbers,
     "v-password": v_password,
-    "v-privacy": v_privacy
+    "v-privacy": v_privacy,
+    "v-darkmode": v_darkmode
   },
   mounted: function() {
     this.update();
   },
   computed: {
+    isDarkMode: function() {
+      return String(this.settings.darkmode).toLowerCase() == "true";
+    },
     validExtensionsString: function() {
       let ans = this.validExtensions
         .slice()
@@ -42,6 +48,9 @@ var app = new Vue({
     }
   },
   methods: {
+    toggleDark: function() {
+      this.settings.darkmode = this.isDarkMode ? false : true;
+    },
     update: function() {
       axios
         .get("/users/self")
@@ -89,7 +98,7 @@ async function uploader(file) {
     .then(() => {
       // console.log(`Sent ${file.name}`);
       this.loading = true;
-      this.loadText = "Uploading...";
+      this.loadText = "Uploading";
       let src = this.settings.image;
       this.settings.image = "";
       this.update();

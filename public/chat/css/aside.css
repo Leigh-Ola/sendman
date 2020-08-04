@@ -51,6 +51,52 @@ aside header .options:active {
   background: #ccc;
 }
 
+/* Notifications box */
+aside .notificationBox {
+  width: 100%;
+  height: 80px;
+  padding: 10px 5px;
+  background: rgba(0, 0, 0, 0.35);
+  background: #245069;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row nowrap;
+  margin-bottom: 10px;
+}
+aside .notificationBox .imgBox {
+  height: 50px;
+  width: 50px;
+  margin: auto 0px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  color: gold;
+  justify-content: center;
+}
+aside .notificationBox .text {
+  height: 100%;
+  max-height: 100%;
+  flex-grow: 1;
+  box-sizing: border-box;
+  padding: 0px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+aside .notificationBox .text > * {
+  width: 100%;
+  color: black;
+  flex-grow: 0;
+  padding: 0px;
+}
+aside .notificationBox .text .fa {
+  color: gold;
+  margin: auto 10px;
+  font-size: 0.85em;
+}
+
+/* Search Form */
 /*   color: rgb(43, 11, 43); */
 aside .inputbox {
   display: flex;
@@ -174,7 +220,7 @@ aside .contactsbox {
   justify-content: flex-start;
   position: absolute;
   margin: auto;
-  width: 70%;
+  width: calc(100% - 40px);
   height: 50px;
   left: 5%;
   top: calc(50% - 25px);
@@ -219,7 +265,7 @@ aside .contactsbox {
   overflow: hidden;
 }
 .contactsbox .contactinside.slide {
-  left: 73%;
+  left: calc(100% - 40px);
 }
 .contactsbox .contactinside:hover {
   cursor: pointer;
@@ -239,6 +285,7 @@ aside .contactsbox {
   align-items: center;
   height: 30px;
   width: 20px;
+  flex-shrink: 0;
   border-radius: 5px;
   margin: auto 5px;
 }
@@ -251,6 +298,8 @@ aside .contactsbox {
   height: 32px;
   max-width: 32px;
   max-height: 32px;
+  min-width: 32px;
+  min-height: 32px;
   flex-shrink: 0;
   border-radius: 50%;
   margin: auto 5px;
@@ -272,7 +321,7 @@ aside .contactsbox {
   display: flex;
   flex-flow: column nowrap;
   font-size: 0.95em;
-  flex-grow: 1;
+  flex-grow: 0;
   box-sizing: border-box;
   padding: 0px 4px;
   align-items: stretch;
@@ -281,10 +330,21 @@ aside .contactsbox {
 .contactsbox .contact .contactinside .info {
   word-wrap: normal;
   white-space: nowrap;
+  padding: 0px;
+  flex-grow: 1;
+  max-width: calc(100% - 80px);
 }
 .contactsbox .contact .contactinside .info b {
   display: flex;
+  width: 100%;
+  max-width: 100%;
   font-family: Quicksand, Timeless, "Courier New", Courier, monospace;
+}
+.contactsbox .contact .contactinside .info b .name {
+  word-wrap: normal;
+  white-space: nowrap;
+  max-width: 100%;
+  flex-grow: 0;
 }
 .contactsbox .contact .contactinside .info b i {
   align-self: flex-end;
@@ -294,14 +354,28 @@ aside .contactsbox {
   font-size: 0.75em;
   font-weight: normal;
   font-style: normal;
-  margin: auto 3px auto auto;
+  margin: auto 3px auto 10px;
+  padding: 0px;
+  line-height: 16px;
   justify-content: center;
-  align-items: center;
   color: white;
   border-radius: 50%;
   text-decoration: none;
   border: none;
+  flex-shrink: 0;
   background: green;
+}
+.contactsbox .contact .contactinside .info b i.tag {
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  font-size: 0.85em;
+  margin: auto 0px auto 0px;
+  color: #245069;
+  background: transparent;
+}
+.contactsbox .contact .contactinside .info b i:first-of-type {
+  margin-left: auto;
 }
 .contactsbox .contact .info > span {
   font-size: 0.8em;
@@ -310,6 +384,10 @@ aside .contactsbox {
 .contactsbox .contact .info > small {
   font-size: 0.65em;
   color: #888;
+  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .contactsbox .morebox,

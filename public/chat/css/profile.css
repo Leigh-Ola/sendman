@@ -144,8 +144,7 @@
 .showprofile .profilebox .detailsbox span {
   padding: 3px 0px;
 }
-.showprofile .profilebox .detailsbox span:nth-of-type(even) {
-  /* background: rgba(255, 255, 255, 0.15); */
+.showprofile .profilebox .detailsbox span:not(:first-of-type) {
   border-top: 1px solid #ddd;
 }
 .showprofile .profilebox .detailsbox span:active {

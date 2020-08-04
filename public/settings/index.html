@@ -12,17 +12,20 @@
     />
 
     <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/dark.css" />
   </head>
   <body>
-    <main id="app">
+    <main id="app" :class="{'dark': isDarkMode}">
       <div class="card" v-cloak>
+        <a class="home" href="../chat/index.html">
+          <i class="fa fa-home"></i>
+        </a>
+
         <div class="dpbox" :class="{'border': loading}">
-          <div class="cover">{{loadText}}</div>
-          <img
-            :src="settings.image"
-            :class="{'hide': loading}"
-            alt="Your Profile Picture"
-          />
+          <div class="cover">
+            <span>{{loadText}}</span>
+          </div>
+          <img :src="settings.image" :class="{'hide': loading}" alt="" />
           <div class="new">
             <i class="fa fa-image"></i>
             <input
@@ -53,6 +56,11 @@
         <v-password></v-password>
 
         <v-privacy :privacy="settings.privacy"></v-privacy>
+
+        <v-darkmode
+          :darkmode="settings.darkmode"
+          @toggle="toggleDark()"
+        ></v-darkmode>
       </div>
     </main>
   </body>

@@ -49,6 +49,7 @@ var user = {
 
       let id = ismute ? "" : this.user.chatId;
       let rem = ismute ? [this.user.chatId] : [];
+      this.slide = false;
       save("muted", id, rem);
     },
     toggleArchive: async function() {
@@ -58,8 +59,20 @@ var user = {
 
       let id = isarchived ? "" : this.user.chatId;
       let rem = isarchived ? [this.user.chatId] : [];
+      this.slide = false;
       save("archived", id, rem);
       this.show = false;
+    },
+    togglePin: async function() {
+      let user = this.$props.user;
+      let ispinned = user.pinned;
+      this.$props.user.pinned = !ispinned;
+
+      let id = ispinned ? "" : this.user.chatId;
+      let rem = ispinned ? [this.user.chatId] : [];
+      this.slide = false;
+      save("pinned", id, rem);
+      this.$emit("pin", id);
     }
   },
   watch: {
@@ -81,6 +94,8 @@ var user = {
               <span  v-else  @click.stop="toggleMute()"><i class="fa fa-volume-up"></i>Mute</span>
               <span  v-if="user.archived"  @click.stop="toggleArchive()"><i class="fa fa-archive"></i>Unarchive</span>
               <span  v-else  @click.stop="toggleArchive()"><i class="fa fa-archive"></i>Archive</span>
+              <span  v-if="user.pinned" @click.stop="togglePin()"><i class="fa fa-thumb-tack"></i>Unpin</span>
+              <span  v-else  @click.stop="togglePin()"><i class="fa fa-thumb-tack"></i>Pin</span>
             </div>
             <div class="contactinside" 
               :class="[slide? 'slide' : '', active_id==user.id? 'active' : '']"
@@ -90,10 +105,15 @@ var user = {
                 @click.stop="slide = !slide"
                 :class="[slide? 'fa-arrow-left' : 'fa-ellipsis-v']"  
               ></i>
-              <img :src="user.image+'?'+new Date().getTime()" alt="Contact Image" />
+              <img :src="user.image+'?'+new Date().getTime()" alt="" />
               <span class="online" v-if="user.online"></span>
               <div class="info">
-                <b>{{isGroup? user.groupname : user.username}}<i v-if="user.count>0">{{user.count}}</i></b>
+                <b>
+                  <span class='name'>{{isGroup? user.groupname : user.username}}</span>
+                  <i class='tag fa fa-volume-down' v-if="user.muted"></i>
+                  <i class='tag fa fa-thumb-tack' v-if="user.pinned"></i>
+                  <i v-if="user.count>0">{{user.count}}</i>
+                </b>
                 <span>{{user.filename}}</span>
                 <small>{{user.time}}</small>
               </div>

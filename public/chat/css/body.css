@@ -129,13 +129,53 @@
   }
 }
 
+/* No transfers */
 .chatbox .nothing {
   margin: auto;
+  flex-direction: column;
+  background: white;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.chatbox .nothing i {
+.chatbox .nothing img.logo {
+  height: 25px;
+  margin: 30px auto;
+}
+.chatbox .nothing img.empty {
+  height: 250px;
+  min-height: 220px;
+  max-height: 280px;
+}
+.chatbox .nothing button {
+  display: block;
+  padding: 5px 40px;
+  border: none;
+  border-radius: 3px;
+  font-size: 1.4em;
+  margin-bottom: 20px;
+  color: silver;
+  transition: box-shadow 0.3s ease;
+  background: #245069;
+  font-family: Titillium, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.chatbox .nothing button:hover {
+  box-shadow: inset 5px 5px 5px #19394b, inset -5px -5px 5px #316b8d;
+}
+.chatbox .nothing button:active {
+  box-shadow: inset 5px 5px 5px #316b8d, inset -5px -5px 5px #19394b;
+}
+/* .chatbox .nothing i {
   color: #7c2e2e;
   font-size: 0.8em;
-}
+} */
+
 .chatbox .msgline {
   width: 100%;
   flex-shrink: 0;
@@ -148,6 +188,7 @@
 .chatbox .msgbox {
   display: flex;
   flex-flow: row nowrap;
+  position: relative;
   /* width: 170px; */
   height: 100%;
   width: 280px;
@@ -167,6 +208,44 @@
   margin: 0px 0px auto 0px;
   border-radius: 4px 4px 4px 0px;
 }
+
+.msgbox .deletebox {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  background: rgba(36, 80, 105, 0.5);
+  right: calc(100% + 10px);
+  top: calc(50% - 15px);
+  font-size: 20px;
+  height: 30px;
+  width: 30px;
+  transition: all 0.3s ease;
+  transform: scale(0);
+  border-radius: 0px 3px 3px 0px;
+  border-radius: 50%;
+  color: maroon;
+  box-shadow: inset 5px 5px 5px #10243080, inset -5px -5px 5px #3c83ac80;
+  box-sizing: border-box;
+  padding: 0px;
+}
+.msgline.left .msgbox .deletebox {
+  background: #ccc;
+  box-shadow: inset 5px 5px 5px #989898, inset -5px -5px 5px #eae8ea;
+  right: unset;
+  left: calc(100% + 10px);
+}
+.msgbox .deletebox.show {
+  transform: scale(1);
+}
+.msgbox .deletebox:active {
+  box-shadow: inset 5px 5px 5px #3c83ac80, inset -5px -5px 5px #10243080;
+}
+.msgline.left .msgbox .deletebox:active {
+  box-shadow: inset 5px 5px 5px #eae8ea, inset -5px -5px 5px #989898;
+}
+
 .msgline > .profileimg {
   width: 30px;
   height: 30px;
@@ -220,6 +299,11 @@
   overflow: hidden;
   word-wrap: break-word;
   white-space: normal;
+}
+.msgbox .details .name > b {
+  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .msgbox .details .views {
   flex-shrink: 0;
@@ -307,6 +391,8 @@
   background: #c1c0c1;
   border-radius: 30px;
   overflow: hidden;
+
+  box-shadow: inset 5px 5px 5px #989898, inset -5px -5px 5px #eae8ea;
 }
 .body .sendbox {
   flex-grow: 1;
@@ -447,6 +533,13 @@
 @media only screen and (max-width: 799px) {
   .body header .trigger {
     display: flex;
+  }
+
+  .chatbox .nothing img.logo {
+    margin: auto auto 30px auto;
+  }
+  .chatbox .nothing button {
+    margin: auto auto 20px auto;
   }
 
   .msgbox .iconbox:hover i {

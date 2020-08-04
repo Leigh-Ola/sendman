@@ -4,8 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-
+    <meta name="theme-color" content="#245069" />
     <title>SENDMAN | Transfer</title>
+
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+
     <link
       rel="stylesheet"
       href="../Libs/FontAwesome/css/font-awesome.min.css"
@@ -25,13 +29,31 @@
   </head>
   <body>
     <main id="app" :class="{'dark' : darkmode,'showprofile' : showprofile}">
+      <div class="cover" :class="{'hide': !initializing}">
+        <i class="fa fa-spinner"></i>
+      </div>
+
       <aside :class="[showaside? 'show' : '']" @click.stop="" v-cloak>
-        <header id='logoheader'>
-          <img id='sendmanlogo' src="../logo.png" alt="" />
+        <header id="logoheader">
+          <img id="sendmanlogo" src="../logo.png" alt="" />
           <a class="options" href="../settings/index.html">
             <i class="fa fa-cog"></i>
           </a>
         </header>
+
+        <div class="notificationBox" @click.stop="logoClick()" v-if='showNotif'>
+          <div class="imgBox">
+            <i class="fa fa-bell"></i>
+          </div>
+          <div class="text">
+            <b>Get notified of new files</b>
+            <span
+              >Turn on SendMan notifications <i class="fa fa-chevron-right"></i
+            ></span>
+          </div>
+        </div>
+
+        <!-- New Conversation -->
         <div class="popup" :class="[newc_popup? 'show' : '']">
           <v-new-conversation
             @updateContacts="updateContacts()"
@@ -68,13 +90,20 @@
             :user="user"
             :active_id="active_user_id"
             @switch="switchUser($event)"
+            @pin="pinChat($event)"
           ></v-user>
           <div class="none" v-if="contacts.length == 0">Nothing to show</div>
           <!-- <div class="morebox">load more</div> -->
         </div>
         <div class="new">
           <div class="chat" @click.stop="newc_popup=true">New</div>
-          <div class="group" :class="{'unClickable' : loadingUsers}" @click.stop="toggleArchive()">{{inArchive? 'Friends' : 'Archive'}}</div>
+          <div
+            class="group"
+            :class="{'unClickable' : loadingUsers}"
+            @click.stop="toggleArchive()"
+          >
+            {{inArchive? 'Friends' : 'Archive'}}
+          </div>
         </div>
       </aside>
 
@@ -87,10 +116,14 @@
       ></v-profile>
 
       <div class="body" @click="showaside = false;">
-        <header @click.stop="">
+        <header @click.stop="" v-show="contacts.length > 0" v-cloak>
           <div class="contactwrapper" v-if="contacts.length">
             <div class="contactbox">
-              <img :src="active_user.image+'?'+new Date().getTime()" alt="" @click.stop="showprofile = true" />
+              <img
+                :src="active_user.image+'?'+new Date().getTime()"
+                alt=""
+                @click.stop="showprofile = true"
+              />
               <div class="contact" @click.stop="showprofile = true" v-cloak>
                 <b>{{active_user.username || active_user.groupname}}</b>
                 <small :class="['on']" v-if="active_user.type == 'group'">
@@ -113,10 +146,16 @@
             <span></span>
           </div>
 
-          <div class="nothing" v-if="messages.length == 0">
-            <i class="fa fa-exclamation"></i>
-            No messages to show
-            <i class="fa fa-exclamation"></i>
+          <div
+            class="nothing"
+            v-show="messages.length == 0  && !loadingMessages && !loadingUsers"
+            v-cloak
+          >
+            <img class="logo" v-if="contacts.length == 0" src="../logo.png" />
+            <img class="empty" src="./img/notransfers.png" alt="" />
+            <button @click="firstFile()">
+              Send A File
+            </button>
           </div>
 
           <v-message
@@ -124,11 +163,12 @@
             v-if="!loadingMessages && !loadingUsers"
             :message="message"
             :chat="contacts[active_user_index]"
+            @delete="removeTransfer($event)"
           ></v-message>
         </div>
 
-        <div class="typebox" v-cloak>
-          <div class="sendbox">
+        <div class="typebox" v-show="contacts.length > 0" v-cloak>
+          <div class="sendbox" v-cloak>
             <span v-if="fileData.size==0">Select A File</span>
             <span v-else-if="fileData.error">{{fileData.error}}</span>
             <span v-else-if="fileData.sending"
@@ -177,6 +217,7 @@
   </body>
   <script src="../Libs/PrefixFree/fullPrefixFree.js"></script>
   <script src="../Libs/Sizzle/sizzle.min.js"></script>
+  <script src="../Libs/JQuery/jquery.min.js"></script>
   <script src="../Libs/Vue/vue.min.js"></script>
   <script src="../Libs/Axios/axios.min.js"></script>
   <script src="../Libs/Moment/moment.min.js"></script>

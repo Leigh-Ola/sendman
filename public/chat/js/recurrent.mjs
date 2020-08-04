@@ -31,6 +31,8 @@ function wrapper(timeout) {
         fakeFuncs[new Date().getTime()] = obj;
       } else {
         for (let i in obj) {
+          let args = obj[i][1];
+          obj[i][1] == args instanceof Array ? args : [];
           fakeFuncs[i] = obj[i];
         }
       }

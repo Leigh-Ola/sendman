@@ -45,6 +45,7 @@ var extension_groups = {
   "document.png": ["txt", "doc", "odt", "docx", "pdf", "tex", "wpd"],
   "zip.png": ["zip", "7z", "arj", "deb", "pkg", "rar", "rpm", "gz", "z"],
   "system.png": [
+    "rtf",
     "bak",
     "cab",
     "cfg",
@@ -133,8 +134,9 @@ let exposed = {
     let ans = text.substr(0, len - 5) + "..." + text.substr(text.length - 5);
     return ans;
   },
-  fileThumbnail: function(extension) {
-    let ans = "";
+  fileThumbnail: function(ext) {
+    let ans = "",
+      extension = String(ext).toLowerCase();
     let groups = extension_groups;
     for (let thumb in groups) {
       if (groups[thumb].includes(extension)) {
@@ -168,6 +170,18 @@ let exposed = {
         ? "Moments ago"
         : `${diff[index]} ${diff[index + 1]} ago`;
     return ans;
+  },
+  sortByPinned: function(arr) {
+    let pinned = [],
+      unpinned = [];
+    for (let obj of arr) {
+      if (arr.pinned) {
+        pinned.push(obj);
+      } else {
+        unpinned.push(obj);
+      }
+    }
+    return pinned.concat(unpinned);
   }
 };
 

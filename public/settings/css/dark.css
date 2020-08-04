@@ -1,0 +1,47 @@
+#app,
+#app > * {
+  transition: background 0.3s ease, color 0.3s ease;
+}
+#app.dark {
+  color: silver;
+  background: rgb(9, 9, 44);
+}
+#app.dark > * {
+  color: silver;
+  background: rgb(9, 9, 44);
+}
+
+#app.dark .card .dpbox {
+  box-shadow: 5px 5px 15px #02020a, -5px -5px 15px #10104e;
+}
+#app.dark .card .dpbox .cover {
+  background: rgb(9, 9, 44);
+  color: silver;
+}
+#app.dark .card h1,
+#app.dark .card .bio {
+  color: silver;
+}
+
+#app.dark .settings .group header {
+  background: rgb(9, 9, 44);
+}
+
+#app.dark .settings .group .item:hover {
+  background: rgba(250, 250, 250, 0.1);
+}
+
+#app.dark .settings .group .privacybox .ans,
+#app.dark .settings .group .privacybox .options {
+  background: #050518;
+}
+
+#app.dark .settings .group .privacybox .ans:hover {
+  background: rgba(5, 5, 24, 0.5);
+}
+
+#app.dark input,
+#app.dark textarea,
+#app.dark button {
+  overflow: hidden;
+}

@@ -3,18 +3,23 @@ import { fetchUsers, fetchContacts } from "../requests.mjs";
 let contacts = [];
 
 async function newChat(url, params) {
-  return await axios
-    .post(url, params)
-    .then(res => {
-      console.log("yasss");
-      console.log(res.data);
-      return res.data.data;
-    })
-    .catch(e => {
-      console.log("noooo");
-      console.log(e);
-      return [];
-    });
+  return new Promise((resolve, reject) => {
+    $.post(url, params, "json")
+      .done(res => {
+        resolve(res.data);
+      })
+      .fail(e => {
+        // console.log(`Error on the way to ${url}`);
+        // console.log(e);
+        // try {
+        // let obj = JSON.parse(JSON.stringify(e));
+        // console.log(obj.responseText);
+        reject(e.responseText);
+        // // } catch (error) {
+        //   reject();
+        // }
+      });
+  });
 }
 
 var data = {
@@ -132,11 +137,22 @@ var data = {
         await newChat("/newchat/group", {
           id: this.members.map(v => v.id),
           name: this.grpname
+        }).catch(e => {
+          e = typeof e == "string" ? e : "Unknown Error. Please try again";
+          this.g_err = e;
         });
       } else {
         await newChat("/newchat/private", {
           id: this.members[0].id
+        }).catch(e => {
+          e = typeof e == "string" ? e : "Unknown Error. Please try again";
+          this.g_err = e;
         });
+      }
+      if (this.g_err) {
+        this.loading = false;
+        this.right = true;
+        return;
       }
 
       let orig = {

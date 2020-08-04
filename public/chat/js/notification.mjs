@@ -4,30 +4,6 @@ function wrapper() {
   var proceed = false;
   var queue = [];
 
-  let el = Sizzle.matches("#logoheader")[0];
-  // console.log(el.outerHTML);
-  el.addEventListener("click mousedown mouseup", () => {
-    console.log("clicked");
-    if (!Notify.needsPermission) {
-      console.log("Permission not required");
-      console.log(`Supported? ${Notify.isSupported()}`);
-      proceed = true;
-    } else if (Notify.isSupported()) {
-      console.log("Permission required");
-      Notify.requestPermission(
-        () => {
-          proceed = true;
-          queue.forEach(v => {
-            show(v);
-          });
-        },
-        () => {
-          console.log("Permission denied");
-        }
-      );
-    }
-  });
-
   function show(obj) {
     console.log(`Showing notification : ${JSON.stringify(obj)}`);
     var notification = new Notify(obj.title, { body: obj.body });
@@ -41,6 +17,33 @@ function wrapper() {
       } else {
         queue.push(obj);
       }
+    },
+    initialize: function() {
+      // if (!Notify.isSupported()) {
+      //   return;
+      // }
+      if (Notify.needsPermission) {
+        Notify.requestPermission(
+          () => {
+            proceed = true;
+            // console.log("Permission granted");
+            queue.forEach(v => {
+              show(v);
+            });
+          },
+          () => {
+            // console.log("Permission denied");
+          }
+        );
+      } else {
+        proceed = true;
+      }
+    },
+    isReady: () => {
+      return proceed;
+    },
+    Notify: () => {
+      return Notify;
     }
   };
 }

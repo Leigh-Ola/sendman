@@ -38,7 +38,7 @@ main#app {
   width: 90%;
   max-width: 1000px;
   margin: auto;
-  background: white;
+  background: #e6e6e6;
   border-radius: 7px;
   overflow: hidden;
 }
@@ -50,12 +50,27 @@ main .card {
   width: 500px;
   max-width: 600px;
   margin: auto 0px;
-  background: white;
+  background: #e6e6e6;
   padding: 20px 0px;
   border-radius: 5px;
   box-sizing: border-box;
   border: 1px solid black;
   border: none;
+  position: relative;
+}
+
+main .card .home {
+  display: block;
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  text-decoration: none;
+  color: #245069;
+  /* width: 40px;
+  height: 40px; */
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
 }
 
 .card .dpbox {
@@ -65,7 +80,11 @@ main .card {
   border-radius: 50%;
   overflow: visible;
   display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
+
+  box-shadow: 5px 5px 15px #c9c9c9, -5px -5px 15px #ffffff;
 }
 .card .dpbox.border {
   border: 1px solid #eee;
@@ -76,17 +95,49 @@ main .card {
   align-items: center;
   z-index: 2;
   position: absolute;
-  background: white;
+  background: #e6e6e6;
   width: 100%;
   height: 100%;
   border-radius: 50%;
   overflow: hidden;
   margin: auto;
+  position: relative;
 }
+.card .dpbox .cover span {
+  margin: auto;
+  display: block;
+  position: relative;
+}
+.card .dpbox .cover span::after {
+  content: "..";
+  display: block;
+  bottom: 0px;
+  left: 100%;
+  z-index: 3;
+  position: absolute;
+  animation: load 1s ease 0s infinite;
+}
+@keyframes load {
+  0% {
+    content: "";
+  }
+  33% {
+    content: ".";
+  }
+  66% {
+    content: "..";
+  }
+  99% {
+    content: "...";
+  }
+}
+
 .card .dpbox img {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
+  min-width: calc(100% - 10px);
+  min-height: calc(100% - 10px);
   border-radius: 50%;
   overflow: hidden;
   margin: auto;
@@ -130,7 +181,7 @@ main .card {
   width: 90%;
   height: 90%;
   z-index: 2;
-  background: white;
+  background: #e6e6e6;
   border: 1px solid black;
   box-sizing: border-box;
 }
@@ -172,7 +223,7 @@ main .card {
   max-height: 650px;
   overflow: hidden;
   overflow-y: scroll;
-  background: white;
+  background: #e6e6e6;
   box-sizing: border-box;
 }
 
@@ -207,7 +258,7 @@ main .card {
   min-width: auto;
   letter-spacing: 1px;
   color: #245069;
-  background: white;
+  background: #e6e6e6;
   font-size: 0.85em;
 }
 
@@ -224,9 +275,10 @@ main .card {
 }
 .settings .group textarea {
   width: 100%;
-  min-width: 200px;
+  min-width: 100%;
   max-width: 100%;
   min-height: 50px;
+  max-height: 300px;
   box-sizing: border-box;
   padding: 5px;
   margin: 7px 0px;
@@ -322,7 +374,7 @@ main .card {
 }
 .settings .group button.submit {
   cursor: pointer;
-  color: white;
+  color: #e6e6e6;
   background: #245069;
   border: 1px solid #245069;
 }
@@ -399,6 +451,44 @@ main .card {
   margin-top: auto;
   font-size: 0.8em;
   text-align: center;
+}
+
+/* Dark Mode */
+.group .inputbox.toggler label {
+  font-size: 1.6em;
+  font-family: Titillium, "Courier New", Courier, monospace;
+  margin: auto auto auto 10px;
+}
+.group .inputbox .switchbox {
+  background: rgb(9, 9, 44);
+  display: block;
+  height: 50px;
+  width: 120px;
+  margin: auto 10px auto auto;
+  border-radius: 50px;
+  box-sizing: border-box;
+  padding: 3px;
+  border: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.group .inputbox .switchbox.on {
+  background: silver;
+}
+.group .inputbox .switchbox .switch {
+  height: 44px;
+  width: 44px;
+  border-radius: 50%;
+  background: #245069;
+  display: block;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  transition: all 0.3s ease;
+}
+.group .inputbox .switchbox.on .switch {
+  left: 70px;
 }
 
 /* phone  */

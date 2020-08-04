@@ -123,40 +123,53 @@ let transfers = {
   ]
 };
 
-var getData = async function(url, params = {}) {
-  return await axios
-    .get(url, {
-      params: params
-    })
-    .then(res => {
-      // console.log("yay");
-      // console.log(res.data);
-      return res.data.data;
-    })
-    .catch(e => {
-      console.log(`Error on the way to ${url}`);
-      // console.log(Object.keys(e));
-      console.log(e);
-      // console.log(e.response);
-      if (e.response && Number(e.response.status) == 401) {
-        // console.log("not authorized");
-        return { unauthorized: true };
-      }
-      return [];
-    });
+var getData = async function(url, params = {}, returnErr = false) {
+  return new Promise((resolve, reject) => {
+    $.get(url, params, "json")
+      .done(res => {
+        // console.log("yay");
+        // console.log(res);
+        resolve(res.data);
+      })
+      .fail(e => {
+        // console.log(`Error on the way to ${url}`);
+        // console.log(e);
+        if (e.status == 401) {
+          resolve({ unauthorized: true });
+        }
+        try {
+          if (returnErr) {
+            let obj = JSON.parse(JSON.stringify(e));
+            // console.log(obj.responseText);
+            reject(obj.responseText);
+          } else {
+            reject(e);
+          }
+        } catch (error) {
+          resolve([]);
+        }
+      });
+  });
 };
 
-var fetchChats = async function(q = "", archive = false) {
-  return await getData("/users/self/chats", { query: q, archive: archive });
+var fetchChats = async function(q = "", archive = false, returnErr) {
+  return await getData(
+    "/users/self/chats",
+    { query: q, archive: archive },
+    returnErr
+  );
 };
-async function fetchContacts(q = "") {
-  return await getData("/users/self/contacts", { query: q });
+async function fetchContacts(q = "", returnErr) {
+  return await getData("/users/self/contacts", { query: q }, returnErr);
 }
-async function fetchUsers(q = "") {
-  return await getData("/users", { query: q });
+async function fetchUsers(q = "", returnErr) {
+  return await getData("/users", { query: q }, returnErr);
 }
-async function fetchTransfers(cid) {
-  return await getData("/transfers", { chatId: cid });
+async function fetchTransfers(cid, returnErr) {
+  return await getData("/transfers/" + cid, {}, returnErr);
+}
+async function fetchSelfData(key, returnErr) {
+  return await getData("/users/self/" + key, {}, returnErr);
 }
 
-export { fetchChats, fetchContacts, fetchUsers, fetchTransfers };
+export { fetchChats, fetchContacts, fetchUsers, fetchTransfers, fetchSelfData };

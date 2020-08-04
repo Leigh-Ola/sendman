@@ -31,6 +31,11 @@ var profile = {
     },
     showMe: function() {
       return this.$props.chat && this.$props.showprofile;
+    },
+    createdOn: function() {
+      let ans = new Date(this.$props.chat.createdOn).toDateString().split(" ");
+      ans = [ans[0], ans[1], ans[2] + ",", ans[3]].join(" ");
+      return ans;
     }
   },
   props: ["chat", "files", "showprofile"],
@@ -86,7 +91,7 @@ var profile = {
             </a>
         </div>
         <div class="date">
-            Created: <span>July 1, 2020</span>
+            Created: <span>{{createdOn}}</span>
         </div>
           </div>
         </div>

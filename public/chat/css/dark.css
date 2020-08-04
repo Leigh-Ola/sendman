@@ -14,6 +14,15 @@ aside
   cursor: pointer;
   background: rgba(0, 0, 0, 0.2);
 }
+.dark aside .notificationBox {
+  background: #040416;
+}
+.dark aside .notificationBox .imgBox {
+  background: #080825;
+}
+.dark aside .notificationBox .text > * {
+  color: white;
+}
 .dark > aside .inputbox input {
   background: #ccc;
 }
@@ -30,6 +39,12 @@ aside
   background: #080825;
 }
 .dark > aside .contactsbox .contactinside.active {
+  background: #0c1b31;
+}
+.dark > aside .new div:hover {
+  background: #040416;
+}
+.dark > aside .new div:active {
   background: #0c1b31;
 }
 
@@ -49,6 +64,7 @@ Body
 }
 .dark > .body .chatbox .nothing {
   color: #ccc;
+  background: rgb(9, 9, 44);
 }
 .dark > .body .msgbox span {
   color: rgb(111, 111, 192);
@@ -59,10 +75,17 @@ Body
 }
 .dark > .body .typebox {
   background: rgba(0, 0, 0, 0.4);
+  box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.1),
+    inset -5px -5px 5px rgba(0, 0, 0, 0.7);
+
   color: gray;
 }
 .dark > .body .sendbox .progress {
   background: rgba(12, 27, 49, 0.7);
+}
+.dark > .body .sendbox .fname .renamebox i {
+  overflow: hidden;
+  border: none;
 }
 
 /* 
@@ -80,4 +103,18 @@ popup
 #app.dark .popup .contactsbox .contact {
   background: #8181db;
   background: #040416;
+}
+
+/* 
+profile
+*/
+#app.dark .profilepopup .profilewrapper {
+  background: rgb(9, 9, 44);
+  color: grey;
+}
+#app.dark .profilebox .detailsbox small {
+  background: rgb(9, 9, 44);
+}
+#app.dark .profilebox .detailsbox .file {
+  color: silver;
 }

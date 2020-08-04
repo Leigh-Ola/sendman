@@ -35,9 +35,9 @@ let template = {
       error: "",
       valid: true,
       saving: false,
-      oldp: "testuser",
-      newp: "password",
-      confirm: "password"
+      oldp: "",
+      newp: "",
+      confirm: ""
     };
   },
   watch: {

@@ -5,12 +5,12 @@ import { template as t_new_conversation } from "./templates/newconversation.mjs"
 import { template as t_profile } from "./templates/profile.js";
 
 // helper functions
-import { fetchChats, fetchTransfers } from "./requests.mjs";
+import { fetchChats, fetchTransfers, fetchSelfData } from "./requests.mjs";
 import { utilities } from "./utilities.js";
 import { Recurrent } from "./recurrent.mjs";
 import { Notif } from "./notification.mjs";
 
-Notif().add({ title: "Ola", body: "Rejoice" });
+const Notify = Notif();
 
 const Recur = Recurrent(3000);
 new Vue({
@@ -21,9 +21,11 @@ new Vue({
     newc_popup: false,
     showrename: false,
     showprofile: false,
+    showNotif: false,
     loadingUsers: true,
     loadingMessages: true,
     inArchive: false,
+    initializing: true,
     active_user_id: "",
     filter: "",
     show_f_err: false,
@@ -61,6 +63,16 @@ new Vue({
       .addEventListener("click", () => {
         this.submitFile();
       });
+    fetchSelfData("darkmode")
+      .then(val => {
+        val = String(val) == "true";
+        this.darkmode = val;
+      })
+      .catch(e => {});
+    if (Notify.Notify.needsPermission) {
+      // show notification permission request box
+      this.showNotif = true;
+    }
   },
   watch: {
     inArchive: function() {
@@ -235,7 +247,7 @@ new Vue({
       });
     },
 
-    updateContacts: function name(query) {
+    updateContacts: function(query) {
       this.show_f_err = true;
       this.loadingMessages = true;
       Recur.remove("updateContacts");
@@ -248,10 +260,52 @@ new Vue({
       });
     },
 
+    removeTransfer: function(fileId) {
+      let messages = this.messages;
+      for (let i in this.messages) {
+        if (messages[i].fileId == fileId) {
+          this.$delete(messages, i);
+          Recur.remove("updateMessages");
+          updateMessages.apply(this);
+          Recur.add({
+            updateMessages: [updateMessages, this]
+          });
+          break;
+        }
+      }
+    },
+
     toggleArchive: function() {
       if (!this.loadingUsers) {
         this.inArchive = !this.inArchive;
       }
+    },
+
+    pinChat: function(chatId) {
+      let key = 0;
+      for (let k in this.contacts) {
+        if (this.contacts[k].chatId == chatId) {
+          key = Number(k);
+        }
+      }
+      let contact = this.contacts.slice(key, key + 1);
+      console.log(contact);
+      this.$delete(this.contacts, key);
+      this.contacts.unshift(contact);
+    },
+
+    firstFile: function() {
+      if (!this.contacts.length) {
+        this.showaside = true;
+        this.newc_popup = true;
+      } else {
+        Sizzle.matches("#file")[0].click();
+      }
+    },
+
+    logoClick: function() {
+      Notify.initialize();
+      this.showNotif = false;
     }
   }
 });
@@ -303,9 +357,13 @@ async function updateContacts(q) {
   if (String(data.constructor).indexOf("bject") > -1) {
     if (data.unauthorized) {
       console.log("unauthorized");
-      window.location.href = "/login";
+      // window.location.href = "/login";
       return;
     }
+  }
+  if (data instanceof Array) {
+    this.initializing = false;
+    data = utilities.sortByPinned(data);
   }
   let foundId = false;
   this.contacts = [];
@@ -340,7 +398,8 @@ async function updateMessages() {
   if (String(transfers.constructor).indexOf("bject") > -1) {
     if (transfers.unauthorized) {
       console.log("unauthorized");
-      window.location.href = "/login";
+
+      // window.location.href = "/login";
       return;
     }
   }
@@ -349,4 +408,13 @@ async function updateMessages() {
     this.$set(this.messages, i, v);
   });
   this.loadingMessages = false;
+  this.$nextTick(() => {
+    let parent = Sizzle.matches(".chatbox")[0];
+    let children = Sizzle.matches(".chatbox .msgline");
+    if (!children || !children.length) {
+      return;
+    }
+    let lastChild = children[children.length - 1];
+    parent.scrollTop = lastChild.offsetTop;
+  });
 }
