@@ -42,44 +42,44 @@ new Vue({
       file: undefined,
       reset: false,
       progress: 0,
-      cancelled: false
-    }
+      cancelled: false,
+    },
   },
   components: {
     "v-message": t_message,
     "v-user": t_user,
     "v-new-conversation": t_new_conversation,
-    "v-profile": t_profile
+    "v-profile": t_profile,
   },
-  mounted: function() {
+  mounted: function () {
     updateContacts.apply(this);
-    handleFileUpload.apply(this);
-    Recur.add({
-      updateMessages: [updateMessages, this],
-      updateContacts: [updateContacts, this]
-    });
+    // handleFileUpload.apply(this);
+    // Recur.add({
+    //   updateMessages: [updateMessages, this],
+    //   updateContacts: [updateContacts, this]
+    // });
     document
       .getElementsByClassName("sendfile")[0]
       .addEventListener("click", () => {
         this.submitFile();
       });
     fetchSelfData("darkmode")
-      .then(val => {
+      .then((val) => {
         val = String(val) == "true";
         this.darkmode = val;
       })
-      .catch(e => {});
+      .catch((e) => {});
     if (Notify.Notify.needsPermission) {
       // show notification permission request box
       this.showNotif = true;
     }
   },
   watch: {
-    inArchive: function() {
+    inArchive: function () {
       this.loadingMessages = true;
       this.loadingUsers = true;
     },
-    fnError: function(val) {
+    fnError: function (val) {
       let el = Sizzle.matches("#rename")[0];
       if (val) {
         el.classList.add("error");
@@ -90,18 +90,18 @@ new Vue({
         el.placeholder = "Rename your file";
       }
     },
-    filter: function(c, v) {
+    filter: function (c, v) {
       if (!c || !v) {
         this.show_f_err = true;
       }
-    }
+    },
   },
   computed: {
-    croppedFileName: function() {
+    croppedFileName: function () {
       let name = this.fileData.name;
       return name ? utilities.cropText(name, 25) : "";
     },
-    active_user_name: function() {
+    active_user_name: function () {
       if (this.active_user_id == "") {
         return "";
       }
@@ -113,7 +113,7 @@ new Vue({
         }
       }
     },
-    active_user_index: function() {
+    active_user_index: function () {
       for (let k in this.contacts) {
         if (this.contacts[k].id == this.active_user_id) {
           return Number(k);
@@ -121,10 +121,10 @@ new Vue({
       }
       return 0;
     },
-    active_user: function() {
+    active_user: function () {
       return this.contacts[this.active_user_index] || {};
     },
-    f_err: function() {
+    f_err: function () {
       let filter = this.filter;
       var err = "Query is too short";
       if (filter.length > 2 || filter == "") {
@@ -134,10 +134,10 @@ new Vue({
         }
       }
       return err;
-    }
+    },
   },
   methods: {
-    renameFile: function() {
+    renameFile: function () {
       if (!this.showrename) {
         this.showrename = true;
         return;
@@ -161,7 +161,7 @@ new Vue({
       this.fileData.name = newname;
       this.showrename = false;
     },
-    submitFile: function() {
+    submitFile: function () {
       if (!this.fileData.size || this.fileData.progress > 0) {
         return;
       }
@@ -180,7 +180,7 @@ new Vue({
         .post("/upload/file", formData, {
           headers: { "Content-Type": "multipart/form-data" },
           cancelToken: cancelTokenSource.token,
-          onUploadProgress: progEv => {
+          onUploadProgress: (progEv) => {
             if (this.fileData.cancelled) {
               cancelTokenSource.cancel();
             } else {
@@ -189,12 +189,12 @@ new Vue({
               );
               this.fileData.progress = cent;
             }
-          }
+          },
         })
         .then(() => {
           console.log(`Sent ${this.fileData.name}`);
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(`Unable to send ${this.fileData.name} : ${e}`);
           console.log(e.response);
           this.fileData.error = this.fileData.cancelled
@@ -218,7 +218,7 @@ new Vue({
         });
     },
 
-    cancelUpload: function() {
+    cancelUpload: function () {
       if (this.fileData.sending && !this.fileData.error) {
         console.log("x");
         this.fileData.cancelled = true;
@@ -237,17 +237,17 @@ new Vue({
       }
     },
 
-    switchUser: function(id) {
+    switchUser: function (id) {
       this.loadingMessages = true;
       this.active_user_id = id;
       Recur.remove("updateMessages");
       updateMessages.apply(this);
       Recur.add({
-        updateMessages: [updateMessages, this]
+        updateMessages: [updateMessages, this],
       });
     },
 
-    updateContacts: function(query) {
+    updateContacts: function (query) {
       this.show_f_err = true;
       this.loadingMessages = true;
       Recur.remove("updateContacts");
@@ -256,11 +256,11 @@ new Vue({
       updateMessages.apply(this);
       Recur.add({
         updateContacts: [updateContacts, this, query],
-        updateMessages: [updateMessages, this]
+        updateMessages: [updateMessages, this],
       });
     },
 
-    removeTransfer: function(fileId) {
+    removeTransfer: function (fileId) {
       let messages = this.messages;
       for (let i in this.messages) {
         if (messages[i].fileId == fileId) {
@@ -268,20 +268,20 @@ new Vue({
           Recur.remove("updateMessages");
           updateMessages.apply(this);
           Recur.add({
-            updateMessages: [updateMessages, this]
+            updateMessages: [updateMessages, this],
           });
           break;
         }
       }
     },
 
-    toggleArchive: function() {
+    toggleArchive: function () {
       if (!this.loadingUsers) {
         this.inArchive = !this.inArchive;
       }
     },
 
-    pinChat: function(chatId) {
+    pinChat: function (chatId) {
       let key = 0;
       for (let k in this.contacts) {
         if (this.contacts[k].chatId == chatId) {
@@ -294,7 +294,7 @@ new Vue({
       this.contacts.unshift(contact);
     },
 
-    firstFile: function() {
+    firstFile: function () {
       if (!this.contacts.length) {
         this.showaside = true;
         this.newc_popup = true;
@@ -303,11 +303,11 @@ new Vue({
       }
     },
 
-    logoClick: function() {
+    logoClick: function () {
       Notify.initialize();
       this.showNotif = false;
-    }
-  }
+    },
+  },
 });
 
 // Additional Functions

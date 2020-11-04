@@ -23,7 +23,7 @@ const availableParamsForMe = [
   "pinned",
   "lastSeen",
   "darkmode",
-  "createdOn"
+  "createdOn",
 ];
 const availableParamsForAll = [
   "id",
@@ -33,7 +33,7 @@ const availableParamsForAll = [
   "bio",
   "username",
   "lastSeen",
-  "createdOn"
+  "createdOn",
 ];
 
 router.get("/", (req, res) => {
@@ -44,15 +44,15 @@ router.get("/", (req, res) => {
   if (searhQuery.length < 3) {
     return res.status(200).send({ done: false, error: "Query is too short" });
   }
-  var id = req.session.barrier.user.user_id;
+  var id = res.locals.barrier.user.user_id;
   // id = "1594761107571q5eoq63lqs0y6u6f3";
 
   let db = database.connect("users");
   let val = Object.values(db.getState());
   val = filter(val, searhQuery, id).slice(0, 20);
-  val = val.map(user => {
+  val = val.map((user) => {
     let ans = {};
-    availableParamsForAll.forEach(v => {
+    availableParamsForAll.forEach((v) => {
       ans[v] = user[v];
     });
     return ans;
@@ -73,12 +73,7 @@ function filter(arr, q, self) {
 
     // search by names
     let name = user.type == "group" ? user.groupname : user.username;
-    if (
-      name
-        .toLowerCase()
-        .split(" ")
-        .includes(q)
-    ) {
+    if (name.toLowerCase().split(" ").includes(q)) {
       ans.push(user);
       continue;
     }
@@ -117,7 +112,7 @@ function filter(arr, q, self) {
 router.get("/:id", (req, res) => {
   // console.log("x");
   let isSelf = req.params.id == "self";
-  let selfId = req.session.barrier.user.user_id;
+  let selfId = res.locals.barrier.user.user_id;
   // let selfId = "1594761107571q5eoq63lqs0y6u6f3";
 
   if (isSelf) {
@@ -145,7 +140,7 @@ router.get("/self/:key", async (req, res) => {
   archive = String(archive) == "true";
 
   let key = req.params.key.toLowerCase();
-  var id = req.session.barrier.user.user_id;
+  var id = res.locals.barrier.user.user_id;
   // id = "1594761107571q5eoq63lqs0y6u6f3";
 
   let allowed = availableParamsForMe.slice();
@@ -198,18 +193,9 @@ async function getUsers(arr, db, id) {
           user.count = getUnseenCount(transfers, id);
           user.type = u.type;
           user.chatId = u.chatId;
-          user.muted = chatDb
-            .get("muted")
-            .value()
-            .includes(id);
-          user.archived = chatDb
-            .get("archived")
-            .value()
-            .includes(id);
-          let isPinned = chatDb
-            .get("pinned")
-            .value()
-            .includes(id);
+          user.muted = chatDb.get("muted").value().includes(id);
+          user.archived = chatDb.get("archived").value().includes(id);
+          let isPinned = chatDb.get("pinned").value().includes(id);
           user.pinned = isPinned ? true : false;
           user.members = chatDb.get("members").value().length;
           user.filename = lastFile.get("realName").value();
@@ -237,21 +223,12 @@ async function getUsers(arr, db, id) {
         user.type = u.type;
         user.id = user.chatId = u.chatId;
         user.createdOn = chatDb.get("createdOn");
-        user.muted = chatDb
-          .get("muted")
-          .value()
-          .includes(id);
-        user.archived = chatDb
-          .get("archived")
-          .value()
-          .includes(id);
-        let isPinned = chatDb
-          .get("pinned")
-          .value()
-          .includes(id);
+        user.muted = chatDb.get("muted").value().includes(id);
+        user.archived = chatDb.get("archived").value().includes(id);
+        let isPinned = chatDb.get("pinned").value().includes(id);
         user.pinned = isPinned ? true : false;
         user.members = chatDb.get("members").value();
-        user.members = user.members.map(v => {
+        user.members = user.members.map((v) => {
           return db.get(v + ".username").value();
         });
         user.filename = lastFile.get("realName").value();
@@ -276,7 +253,7 @@ function getUnseenCount(tf, id) {
   let count = 0;
   // console.log(transfers);
   if (transfers) {
-    transfers.forEach(transfer => {
+    transfers.forEach((transfer) => {
       // count++ if id is not in transfer.seen
       if (transfer && !transfer.seen.includes(id)) {
         count++;
@@ -327,7 +304,7 @@ router.post("/self/:key", async (req, res) => {
   let key = String(req.params.key).toLowerCase();
   let val = req.body.value;
   let remove = req.body.remove;
-  var id = req.session.barrier.user.user_id;
+  var id = res.locals.barrier.user.user_id;
   // id = "1594761107571q5eoq63lqs0y6u6f3";
 
   let db = database.connect("users");
@@ -341,7 +318,7 @@ router.post("/self/:key", async (req, res) => {
     "muted",
     "archived",
     "darkmode",
-    "pinned"
+    "pinned",
   ];
   if (!writable.includes(key)) {
     return res.status(400).send(`Invalid parameter : '${key}'`);

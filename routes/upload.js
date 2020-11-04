@@ -16,7 +16,7 @@ router.post("/file", async (req, res, next) => {
   if (!res.locals.barrier.authenticated && false) {
     return res.status(401).send("Unauthorized");
   }
-  var id = req.session.barrier.user.user_id;
+  var id = res.locals.barrier.user.user_id;
   // id = "1594761107571q5eoq63lqs0y6u6f3";
 
   // console.log("Receiving...");
@@ -26,7 +26,7 @@ router.post("/file", async (req, res, next) => {
 
   async function handle() {
     new formidable({
-      maxFileSize: 1024 * 1024 * 50 // (1024*1024*50) = 50mb
+      maxFileSize: 1024 * 1024 * 50, // (1024*1024*50) = 50mb
     })
       .parse(req)
       .on("fileBegin", (name, file) => {
@@ -73,17 +73,14 @@ router.post("/file", async (req, res, next) => {
         fields.size = file.size;
         fields.path = file.path;
       })
-      .on("error", err => {
+      .on("error", (err) => {
         // console.log("Error uploading");
         responded = true;
         if (!responded) {
-          res
-            .status(500)
-            .type("text")
-            .send(`Upload Error : ${err}`);
+          res.status(500).type("text").send(`Upload Error : ${err}`);
         }
       })
-      .on("end", x => {
+      .on("end", (x) => {
         // all done
         let valid = true;
         let oldPath = path.resolve(
@@ -97,16 +94,13 @@ router.post("/file", async (req, res, next) => {
           fields.name
         );
         let fieldsK = Object.keys(fields);
-        requiredFields.forEach(v => {
+        requiredFields.forEach((v) => {
           if (!fieldsK.includes(v)) {
             valid = false;
           }
         });
         if (!responded) {
-          res
-            .status(200)
-            .type("text")
-            .send("Upload successful");
+          res.status(200).type("text").send("Upload successful");
         } else {
           valid = false;
         }
@@ -114,7 +108,7 @@ router.post("/file", async (req, res, next) => {
         if (fields.fileEntered && valid) {
           // move to appropriate place
           // console.log(`Moving to folder >> ${newPath}`);
-          fs.rename(oldPath, newPath, err => {
+          fs.rename(oldPath, newPath, (err) => {
             if (!err) {
               update(fields, id);
             }
@@ -123,14 +117,14 @@ router.post("/file", async (req, res, next) => {
         } else {
           // delete the temp file : fields.name;
           // console.log(`Removing from temp >> ${oldPath}`);
-          fs.unlink(oldPath, err => {
+          fs.unlink(oldPath, (err) => {
             // console.log("Failure deleting file : "+err);
           });
         }
       });
   }
 
-  handle().catch(error => {
+  handle().catch((error) => {
     // console.log(`Error sending : ${error}`);
   });
 });
@@ -143,9 +137,7 @@ async function update(info, sender) {
   let transfers = chatDb.get("transfers").value();
   let size = normalizeSize(info.size);
   let fid = utils.randomString(20, false);
-  let time = moment()
-    .utcOffset(0)
-    .format();
+  let time = moment().utcOffset(0).format();
   /**
    * ISO 8601 format => yy-mm-ddThh:mm:ssZ
    * 2020-07-15T11:00:48+01:00
@@ -160,13 +152,10 @@ async function update(info, sender) {
     senderimage: "/images/user/" + sender,
     size: size,
     fileId: fid,
-    seen: [sender]
+    seen: [sender],
   });
   chatDb.set("transfers", transfers).write();
-  let chatMembers_butMe = chatDb
-    .get("members")
-    .without(sender)
-    .value();
+  let chatMembers_butMe = chatDb.get("members").without(sender).value();
 
   // update sender's chats
   let me = db.get(sender);
@@ -175,7 +164,7 @@ async function update(info, sender) {
     .filter({ type: info.type, chatId: info.chatid })
     .value()[0];
   myChats
-    .remove(v => {
+    .remove((v) => {
       return v.type == info.type && v.chatId == info.chatid;
     })
     .write();
@@ -191,7 +180,7 @@ async function update(info, sender) {
       .filter({ type: info.type, chatId: info.chatid })
       .value()[0];
     recChats
-      .remove(v => {
+      .remove((v) => {
         return v.type == info.type && v.chatId == info.chatid;
       })
       .write();
@@ -240,7 +229,7 @@ router.post("/image", async (req, res, next) => {
   if (!res.locals.barrier.authenticated && false) {
     return res.status(401).send("Unauthorized");
   }
-  var id = req.session.barrier.user.user_id;
+  var id = res.locals.barrier.user.user_id;
   // id = "1594761107571q5eoq63lqs0y6u6f3";
 
   // console.log("Receiving image...");
@@ -250,7 +239,7 @@ router.post("/image", async (req, res, next) => {
 
   async function handle() {
     new formidable({
-      maxFileSize: 1024 * 1024 * 5 // (1024*1024*50) = 50mb
+      maxFileSize: 1024 * 1024 * 5, // (1024*1024*50) = 50mb
     })
       .parse(req)
       .on("fileBegin", (name, file) => {
@@ -274,17 +263,14 @@ router.post("/image", async (req, res, next) => {
         fields.fileEntered = true;
         fields.path = file.path;
       })
-      .on("error", err => {
+      .on("error", (err) => {
         // console.log("Error uploading image");
         if (!responded) {
           responded = true;
-          res
-            .status(500)
-            .type("text")
-            .send(`Upload Error : ${err}`);
+          res.status(500).type("text").send(`Upload Error : ${err}`);
         }
       })
-      .on("end", x => {
+      .on("end", (x) => {
         // all done
         let valid = true;
         let oldPath = path.resolve(
@@ -297,10 +283,7 @@ router.post("/image", async (req, res, next) => {
           "../server/storage/files/" + id + "/image." + fields.extension
         );
         if (!responded) {
-          res
-            .status(200)
-            .type("text")
-            .send("Upload successful");
+          res.status(200).type("text").send("Upload successful");
         } else {
           valid = false;
         }
@@ -311,13 +294,13 @@ router.post("/image", async (req, res, next) => {
           let pattern = folder + "/image.*";
           glob(pattern, (err, files) => {
             if (files.length && !err) {
-              fs.unlink(files[0], err => {
+              fs.unlink(files[0], (err) => {
                 // console.log("Failure deleting file : "+err);
               });
             }
             // move to appropriate place
             // console.log(`Moving image to folder >> ${newPath}`);
-            fs.rename(oldPath, newPath, err => {
+            fs.rename(oldPath, newPath, (err) => {
               if (!err) {
                 // update(fields, id); // < ==
               }
@@ -327,23 +310,20 @@ router.post("/image", async (req, res, next) => {
         } else {
           // delete the temp file : fields.name;
           // console.log(`Removing image from temp >> ${oldPath}`);
-          fs.unlink(oldPath, err => {
+          fs.unlink(oldPath, (err) => {
             // console.log("Failure deleting file : "+err);
           });
         }
       });
   }
 
-  handle().catch(error => {
+  handle().catch((error) => {
     // console.log(`Error sending : ${error}`);
   });
 });
 
 function getExtension(filename = "") {
-  return String(filename)
-    .split(".")
-    .reverse()[0]
-    .toLowerCase();
+  return String(filename).split(".").reverse()[0].toLowerCase();
 }
 
 module.exports = router;

@@ -8,7 +8,7 @@ const router = express.Router();
 const database = require("../server/db");
 
 router.get("/:chatId/:fileId", async (req, res, next) => {
-  var id = req.session.barrier.user.user_id;
+  var id = res.locals.barrier.user.user_id;
   // id = "1594761107571q5eoq63lqs0y6u6f3";
 
   let { chatId, fileId } = req.params;
@@ -23,10 +23,7 @@ router.get("/:chatId/:fileId", async (req, res, next) => {
     return res.status(404).send("File not found");
   }
   let chatDb = await database.connectChat(chatId);
-  let file = chatDb
-    .get("transfers")
-    .filter({ fileId: fileId })
-    .value();
+  let file = chatDb.get("transfers").filter({ fileId: fileId }).value();
   if (!Boolean(file.length)) {
     return res.status(404).send("File not found");
   }

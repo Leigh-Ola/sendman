@@ -6,12 +6,12 @@
       pwd: "",
       email_err: "",
       pwd_err: "",
-      err: ""
+      err: "",
     },
-    mounted: function() {},
+    mounted: function () {},
     watch: {},
     methods: {
-      signin: function(e) {
+      signin: function (e) {
         let { pwd, email } = this;
         let data = [email, pwd];
         if (!verify.apply(this, data)) {
@@ -24,8 +24,8 @@
         // console.log(form);
         // console.log(document.forms[0]);
         sendData.apply(this, data);
-      }
-    }
+      },
+    },
   });
 }
 
@@ -35,18 +35,19 @@ function sendData(email, pwd) {
   $.post(
     "/signin", // url where form should be submitted to
     obj, // data to be submit
-    function(data, status, xhr) {
+    function (data, status, xhr) {
       // callback function
       // console.log("status: " + status + ", data: " + data.responseData);
     },
     "json"
   ) // response data format
-    .done(res => {
+    .done((res) => {
       console.log("success");
       console.log(res);
+      window.localStorage.setItem("authtoken", res.token);
       window.location.href = "../index.html";
     })
-    .fail(e => {
+    .fail((e) => {
       console.log("failure");
       let obj = JSON.parse(JSON.stringify(e));
       console.log(obj);

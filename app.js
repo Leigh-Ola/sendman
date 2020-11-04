@@ -3,15 +3,17 @@ const app = express();
 
 const path = require("path");
 const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const expressSession = require("express-session");
+// const cookieParser = require("cookie-parser");
+// const expressSession = require("express-session");
 const cors = require("cors");
 
 const _ = require("lodash");
+const jwt = require("jsonwebtoken");
 const morgan = require("morgan");
 const glob = require("glob");
+require("dotenv").config();
 
-const barrier = require("./server/barrier.js");
+// const barrier = require("./server/barrier.js");
 const validator = require("./server/validate.js");
 // app.use(morgan(":method :url :status"));
 
@@ -25,17 +27,17 @@ app.use(cors());
 // parse incoming parameter requests to req.body
 app.use(
   bodyParser.urlencoded({
-    extended: true
+    extended: true,
   })
 );
 app.use(bodyParser.json());
 
 // allow use of cookies
-app.use(
-  cookieParser("sendmancookiesss", {
-    secure: true
-  })
-);
+// app.use(
+//   cookieParser("sendmancookiesss", {
+//     secure: true,
+//   })
+// );
 /**
  * "sendmancookiesss", {
     secure: true,
@@ -44,61 +46,100 @@ app.use(
  */
 
 // track logged in user across sessions
-app.use(
-  expressSession({
-    key: "session_id",
-    secret: "sendmansecretapp",
-    resave: true,
-    saveUninitialized: false,
-    cookie: {
-      sameSite: "strict"
-    }
-  })
-);
+// app.use(
+//   expressSession({
+//     key: "session_id",
+//     secret: "sendmansecretapp",
+//     resave: true,
+//     saveUninitialized: false,
+//     cookie: {
+//       sameSite: "strict",
+//     },
+//   })
+// );
 
-var auth = barrier.authenticate(
-  (email, password) => {
-    // console.log(`Authenticating... uname: ${email}; pwd: ${password}`);
-    let db = database.connect("users");
-    let match = _.filter(db.value(), { mainEmail: email });
-    if (!match.length) {
-      // res.status(400).send("Incorrect email or password");
-      return { error: "Incorrect email or password" };
+// check jwt authorization
+var auth = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  res.locals.barrier = {};
+  res.locals.barrier.authenticated = false;
+  if (authHeader) {
+    try {
+      const token = authHeader.split(" ")[1];
+      jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+          return res.status(401).send("Authorization failed");
+        }
+        if (typeof role === "string" && user.role != role) {
+          return res.status(401).send("Authorization failed");
+        }
+        res.locals.barrier.user = user;
+        res.locals.barrier.authenticated = true;
+        console.log("Authorized");
+        next();
+      });
+    } catch (error) {
+      console.log(`Not authorized to access : ${req.originalUrl}`);
+      return res.status(401).send("Authorization failed");
     }
-    match = match[0];
-    // console.log(JSON.stringify(match));
-    if (match.password != password) {
-      // res.status(400).send("Incorrect email or password");
-      return { error: "Incorrect email or password" };
-    }
-    return String(match.id);
-  },
-  {
-    username: "email",
-    password: "password",
-    location: "body"
+  } else {
+    console.log(`Not authorized to access : ${req.originalUrl}`);
+    return res.status(401).send("Authorization required");
   }
-);
+};
 
 app.set("port", process.env.PORT || 8080);
 app.use(express.static(__dirname + "/public"));
 
 /* routes */
 let check_in = require("./routes/checkin");
-app.use("/users", barrier.verify, check_in, require("./routes/users"));
-app.use("/newchat", barrier.verify, check_in, require("./routes/newchat"));
-app.use("/upload", barrier.verify, check_in, require("./routes/upload"));
-app.use("/transfers", barrier.verify, check_in, require("./routes/transfers"));
-app.use("/download", barrier.verify, check_in, require("./routes/download"));
-app.use("/images", barrier.verify, check_in, require("./routes/images"));
+app.use("/users", auth, check_in, require("./routes/users"));
+app.use("/newchat", auth, check_in, require("./routes/newchat"));
+app.use("/upload", auth, check_in, require("./routes/upload"));
+app.use("/transfers", auth, check_in, require("./routes/transfers"));
+app.use("/download", auth, check_in, require("./routes/download"));
+app.use("/images", require("./routes/images")); // no need for auth when loading images
 
-app.post("/signin", auth, (req, res, next) => {
-  if (res.locals.barrier.authenticated) {
-    res.status(200).json({ done: true });
-  } else {
-    let error = res.locals.barrier.error;
-    res.status(500).send(error);
+app.post("/signin", (req, res, next) => {
+  let { email, password } = req.body;
+  let db = database.connect("users");
+  let match = _.filter(db.value(), { mainEmail: email });
+  if (!match.length) {
+    return res.status(400).send("Incorrect email or password");
   }
+  match = match[0];
+  if (match.password != password) {
+    return res.status(400).send("Incorrect email or password");
+  }
+  let id = match.id;
+  console.log(id);
+  const token = jwt.sign(
+    {
+      role: "user",
+      user_id: id,
+      authenticated: true,
+    },
+    process.env.JWT_SECRET
+  );
+  console.log(token);
+  res.json({ done: true, token });
+  console.log("Logging in complete");
+  // req.session.barrier.user.user_id
+  // res.status(400).send("testing");
+  // if (res.locals.barrier.authenticated) {
+  //   const token = jwt.sign(
+  //     {
+  //       role: "user",
+  //       id: user.id,
+  //     },
+  //     process.env.JWT_SECRET
+  //   );
+  //   res.json({ token });
+  //   res.status(200).json({ done: true });
+  // } else {
+  //   let error = res.locals.barrier.error;
+  //   res.status(500).send(error);
+  // }
 });
 
 app.post(
@@ -119,38 +160,50 @@ app.post(
           number,
           password,
           email,
-          id
+          id,
         });
         let matches = _.filter(db.value(), { mainEmail: email });
         let exists = Boolean(matches.length);
         // console.log(matches);
         if (exists) {
+          console.log(matches);
           res.status(400).send("An account with this email already exists");
         } else {
-          db.set(id, user).write();
-          let pathToFiles = path.resolve(
-            __dirname,
-            "./server/storage/files/" + id
-          );
-          await utils.makeDir(pathToFiles);
+          // db.set(id, user).write();
+          // let pathToFiles = path.resolve(
+          //   __dirname,
+          //   "./server/storage/files/" + id
+          // );
+          // await utils.makeDir(pathToFiles);
+          res.locals.user_id = id;
           next();
         }
       } catch (error) {
-        if (!err) {
+        if (!error) {
+          console.log("no error");
           res.status(500).send("Error registering. Please try again.");
           err = true;
+        } else {
+          console.log(error);
+          res.status(500).send("Error registering. Please try again.");
         }
       }
     }
   },
-  auth,
   (req, res, next) => {
-    console.log(`Authenticated? ${res.locals.barrier.authenticated}`);
-    if (res.locals.barrier.authenticated) {
-      res.status(200).json({ done: true });
-    } else {
-      res.status(500).send("Error registering. Please try again.");
-    }
+    // console.log(`Authenticated? ${res.locals.barrier.authenticated}`);
+    let id = res.locals.user_id;
+    const token = jwt.sign(
+      {
+        role: "user",
+        user_id: id,
+        authenticated: true,
+      },
+      process.env.JWT_SECRET
+    );
+    // console.log(token);
+    res.json({ done: true, token });
+    // console.log("Registration complete");
   }
 );
 

@@ -12,12 +12,12 @@
       email_err: "",
       pwd_err: "",
       confirm_pwd_err: "",
-      err: ""
+      err: "",
     },
-    mounted: function() {},
+    mounted: function () {},
     watch: {},
     methods: {
-      signup: function(e) {
+      signup: function (e) {
         let { uname, num, pwd, confirm_pwd, email } = this;
         let data = [uname, num, email, pwd, confirm_pwd];
         if (!verify.apply(this, data)) {
@@ -26,14 +26,14 @@
             num_err,
             pwd_err,
             confirm_pwd_err,
-            email_err
+            email_err,
           } = this;
           console.log(uname_err, num_err, pwd_err, confirm_pwd_err, email_err);
           return;
         }
         sendData.apply(this, data);
-      }
-    }
+      },
+    },
   });
 }
 
@@ -43,18 +43,19 @@ function sendData(uname, num, email, pwd) {
   $.post(
     "/signup", // url where form should be submitted to
     obj, // data to be submit
-    function(data, status, xhr) {
+    function (data, status, xhr) {
       // callback function
       // console.log("status: " + status + ", data: " + data.responseData);
     },
     "json"
   ) // response data format
-    .done(res => {
-      // console.log("success");
-      // console.log(res);
+    .done((res) => {
+      console.log("success");
+      console.log(res);
+      window.localStorage.setItem("authtoken", res.token);
       window.location.href = "../index.html";
     })
-    .fail(e => {
+    .fail((e) => {
       let obj = JSON.parse(JSON.stringify(e));
       this.err = obj.responseText;
     });

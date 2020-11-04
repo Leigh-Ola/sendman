@@ -11,7 +11,7 @@ const glob = require("glob");
 const database = require("../server/db");
 
 router.get("/:chatId", async (req, res, next) => {
-  var id = req.session.barrier.user.user_id;
+  var id = res.locals.barrier.user.user_id;
 
   let { chatId } = req.params;
   // console.log(chatId);
@@ -48,7 +48,7 @@ router.get("/:chatId", async (req, res, next) => {
       views: v.seen.length,
       fileId: v.fileId,
       time: v.time,
-      senderimage: v.senderimage
+      senderimage: v.senderimage,
     };
     ans.isme = v.sender == id;
     ans.name = v.realName; //.replace(/^[\d]+_/, "");
@@ -68,7 +68,7 @@ router.get("/:chatId", async (req, res, next) => {
 });
 
 router.delete("/:chatId/:fileId", async (req, res, next) => {
-  var id = req.session.barrier.user.user_id;
+  var id = res.locals.barrier.user.user_id;
 
   let { chatId, fileId } = req.params;
 
@@ -86,10 +86,7 @@ router.delete("/:chatId/:fileId", async (req, res, next) => {
   }
 
   let chatDb = await database.connectChat(chatId);
-  let transferExists = chatDb
-    .get("transfers")
-    .filter({ fileId })
-    .value();
+  let transferExists = chatDb.get("transfers").filter({ fileId }).value();
   if (!Boolean(transferExists.length)) {
     return res.status(401).send(`Unable to find transfer '${chatId}'`);
   }
@@ -107,13 +104,13 @@ router.delete("/:chatId/:fileId", async (req, res, next) => {
     }
     var fp = path.resolve(__dirname, files[0]);
 
-    fs.unlink(fp, err => {
+    fs.unlink(fp, (err) => {
       if (err) {
         return res.status(401).send(`Unable to delete file '${fileId}'`);
       }
       chatDb
         .get("transfers")
-        .remove(transfer => {
+        .remove((transfer) => {
           return transfer.fileId == fileId;
         })
         .write();

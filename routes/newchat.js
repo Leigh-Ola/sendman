@@ -12,7 +12,7 @@ const utils = require("../server/utils");
 
 router.post("/private", async (req, res) => {
   let recipientId = req.body.id;
-  var id = req.session.barrier.user.user_id;
+  var id = res.locals.barrier.user.user_id;
   // id = "1594761107571q5eoq63lqs0y6u6f3";
   let db = database.connect("users");
   let rec = db.get(recipientId);
@@ -27,12 +27,12 @@ router.post("/private", async (req, res) => {
   let recObj = {
     type: "private",
     recipient: id,
-    chatId
+    chatId,
   };
   let myObj = {
     type: "private",
     recipient: recipientId,
-    chatId
+    chatId,
   };
   let exists = Boolean(
     recChats.filter({ recipient: id, type: "private" }).value().length
@@ -46,7 +46,7 @@ router.post("/private", async (req, res) => {
       recObj = recObj2;
     }
     recChats
-      .remove(v => {
+      .remove((v) => {
         return v.type == "private" && v.recipient == id;
       })
       .write();
@@ -59,7 +59,7 @@ router.post("/private", async (req, res) => {
     }
     // console.log(myChats.value());
     myChats
-      .remove(v => {
+      .remove((v) => {
         // console.log(v);
         return v.type == "private" && v.recipient == recipientId;
       })
@@ -77,7 +77,7 @@ router.post("/private", async (req, res) => {
         transfers: [],
         muted: [],
         archived: [],
-        pinned: []
+        pinned: [],
       })
       .write();
   }
@@ -99,7 +99,7 @@ router.post("/private", async (req, res) => {
 
 router.post("/group", async (req, res) => {
   let { name: groupName, id: recipientsId } = req.body;
-  var id = req.session.barrier.user.user_id;
+  var id = res.locals.barrier.user.user_id;
   // id = "1594761107571q5eoq63lqs0y6u6f3";
   let chatId = utils.randomString(30);
   let members = recipientsId.concat(id);
@@ -114,7 +114,7 @@ router.post("/group", async (req, res) => {
   let obj = {
     type: "group",
     recipients: members,
-    chatId
+    chatId,
   };
 
   let chatDb = await database.connectChat(chatId);
@@ -130,7 +130,7 @@ router.post("/group", async (req, res) => {
       transfers: [],
       muted: [],
       archived: [],
-      pinned: []
+      pinned: [],
     })
     .write();
 

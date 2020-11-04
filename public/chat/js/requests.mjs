@@ -18,7 +18,7 @@ var temp_users = [
       This is my test bio.
       This is my test bio.
       This is my test bio.
-      This is my test bio.`
+      This is my test bio.`,
   },
   {
     username: "Michael Jordan", //
@@ -34,7 +34,7 @@ var temp_users = [
     archived: true,
     emails: ["aaa@bbb.com", "xxx@yyy.com"], //
     numbers: [], //
-    bio: "I play basketball" //
+    bio: "I play basketball", //
   },
   {
     username: "Michael Faraday (G)",
@@ -48,8 +48,8 @@ var temp_users = [
     members: 5,
     muted: false,
     archived: false,
-    members: ["Isaac Newton", "Albert Einstein"]
-  }
+    members: ["Isaac Newton", "Albert Einstein"],
+  },
 ];
 
 let transfers = {
@@ -60,7 +60,7 @@ let transfers = {
       name: "MyFile.zip",
       size: "500mb",
       views: 2,
-      isme: false
+      isme: false,
     },
     {
       link: "craplink2.html",
@@ -68,7 +68,7 @@ let transfers = {
       name: "MyFileVersionTwoImage.png",
       size: "1kb",
       views: 2,
-      isme: true
+      isme: true,
     },
     {
       link: "craplink2b.html",
@@ -76,7 +76,7 @@ let transfers = {
       name: "MyFileVersionTwoImage.crap",
       size: "12.5kb",
       views: 2,
-      isme: false
+      isme: false,
     },
     {
       link: "craplink3.html",
@@ -84,7 +84,7 @@ let transfers = {
       name: "MyFileVersionTwoSecretDocuments.txt",
       size: "75b",
       views: 2,
-      isme: true
+      isme: true,
     },
     {
       link: "craplink4.html",
@@ -92,7 +92,7 @@ let transfers = {
       name: "MyRecording.wav",
       size: "1.5mb",
       views: 1,
-      isme: true
+      isme: true,
     },
     {
       link: "craplink5.html",
@@ -100,8 +100,8 @@ let transfers = {
       name: "MyFileOriginalVideo.mp4",
       size: "31mb",
       views: 1,
-      isme: true
-    }
+      isme: true,
+    },
   ],
   qiueizl: [
     {
@@ -110,7 +110,7 @@ let transfers = {
       name: "CompressedFile.zip",
       size: "219mb",
       views: 5,
-      isme: false
+      isme: false,
     },
     {
       link: "craplink2.html",
@@ -118,20 +118,27 @@ let transfers = {
       name: "UncompressedFile.obb",
       size: "500mb",
       views: 1,
-      isme: false
-    }
-  ]
+      isme: false,
+    },
+  ],
 };
 
-var getData = async function(url, params = {}, returnErr = false) {
+var getData = async function (url, params = {}, returnErr = false) {
+  const authtoken = localStorage.getItem("authtoken");
   return new Promise((resolve, reject) => {
-    $.get(url, params, "json")
-      .done(res => {
+    $.ajax({
+      url,
+      type: "GET",
+      headers: { Authorization: "Bearer " + authtoken },
+      // ('Authorization', 'Bearer t-7614f875-8423-4f20-a674-d7cf3096290e')
+    })
+      // $.get(url, params, "json", be)
+      .done((res) => {
         // console.log("yay");
         // console.log(res);
         resolve(res.data);
       })
-      .fail(e => {
+      .fail((e) => {
         // console.log(`Error on the way to ${url}`);
         // console.log(e);
         if (e.status == 401) {
@@ -152,7 +159,7 @@ var getData = async function(url, params = {}, returnErr = false) {
   });
 };
 
-var fetchChats = async function(q = "", archive = false, returnErr) {
+var fetchChats = async function (q = "", archive = false, returnErr) {
   return await getData(
     "/users/self/chats",
     { query: q, archive: archive },
