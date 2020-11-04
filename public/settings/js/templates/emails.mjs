@@ -1,19 +1,23 @@
 function save(email = "", remove = []) {
+  const authtoken = localStorage.getItem("authtoken");
   return new Promise((resolve, reject) => {
     axios
       .post(
         "/users/self/emails",
         {
           value: email,
-          remove: remove
+          remove: remove,
         },
         {
-          validateStatus: status => {
+          validateStatus: (status) => {
             return status < 600;
-          }
+          },
+          headers: {
+            Authorization: "Bearer " + authtoken,
+          },
         }
       )
-      .then(res => {
+      .then((res) => {
         console.log(res);
         let status = res.status;
         if (status > 299) {
@@ -23,7 +27,7 @@ function save(email = "", remove = []) {
         console.log("succeeded");
         resolve();
       })
-      .catch(e => {
+      .catch((e) => {
         console.log("failed");
         reject("An unknown error occurred. Please try again");
       });
@@ -31,18 +35,18 @@ function save(email = "", remove = []) {
 }
 
 let template = {
-  data: function() {
+  data: function () {
     return {
       error: "",
       valid: true,
       saving: false,
       showinput: false,
       tempemail: "",
-      removed: []
+      removed: [],
     };
   },
   watch: {
-    tempemail: function(val) {
+    tempemail: function (val) {
       if (this.saving) {
         return;
       }
@@ -57,17 +61,17 @@ let template = {
         this.error = "";
       }
     },
-    removed: function() {
+    removed: function () {
       if (this.error && this.valid) {
         this.error = "";
       }
-    }
+    },
   },
   methods: {
-    remove: function(email) {
+    remove: function (email) {
       this.removed.push(email);
     },
-    save: function() {
+    save: function () {
       if ((!this.error || this.removed) && !this.saving) {
         let removed = this.removed,
           temp = this.tempemail;
@@ -95,14 +99,14 @@ let template = {
             this.tempemail = "";
             this.$emit("update");
           })
-          .catch(e => {
+          .catch((e) => {
             this.valid = false;
             this.error = e;
             this.removed = [];
             this.saving = false;
           });
       }
-    }
+    },
   },
   props: ["emails"],
   template: `
@@ -123,7 +127,7 @@ let template = {
     >New</button>
     <button class="submit" :class="{'disabled': saving}" @click.stop="save()">Save</button>
 </div>
-`
+`,
 };
 
 export { template };

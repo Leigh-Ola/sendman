@@ -1,18 +1,22 @@
 function save(obj) {
+  const authtoken = localStorage.getItem("authtoken");
   return new Promise((resolve, reject) => {
     axios
       .post(
         "/users/self/privacy",
         {
-          value: obj
+          value: obj,
         },
         {
-          validateStatus: status => {
+          validateStatus: (status) => {
             return status < 600;
-          }
+          },
+          headers: {
+            Authorization: "Bearer " + authtoken,
+          },
         }
       )
-      .then(res => {
+      .then((res) => {
         console.log(res);
         let status = res.status;
         if (status > 299) {
@@ -22,7 +26,7 @@ function save(obj) {
         console.log("succeeded");
         resolve();
       })
-      .catch(e => {
+      .catch((e) => {
         console.log("failed");
         reject("An unknown error occurred. Please try again");
       });
@@ -30,25 +34,25 @@ function save(obj) {
 }
 
 let template = {
-  data: function() {
+  data: function () {
     return {
       error: "",
       valid: true,
       saving: false,
       profileshow: false,
-      groupshow: false
+      groupshow: false,
     };
   },
   watch: {},
   methods: {
-    save: function() {
+    save: function () {
       if (!this.saving) {
         this.error = "Saving...";
         this.saving = true;
         this.valid = true;
         let obj = {
           profile: this.$props.privacy.profile,
-          group: this.$props.privacy.group
+          group: this.$props.privacy.group,
         };
         save(obj)
           .then(() => {
@@ -56,13 +60,13 @@ let template = {
             this.saving = false;
             this.$emit("update");
           })
-          .catch(e => {
+          .catch((e) => {
             this.valid = false;
             this.error = e;
             this.saving = false;
           });
       }
-    }
+    },
   },
   props: ["privacy"],
   template: ` 
@@ -130,7 +134,7 @@ let template = {
           </div>
           <ins :class="{'error': !valid}">{{error}}</ins>
           <button class="submit" :class="{'disabled': saving}" @click.stop="save()">Save</button>
-        </div>`
+        </div>`,
 };
 
 export { template };

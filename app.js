@@ -15,6 +15,7 @@ require("dotenv").config();
 
 // const barrier = require("./server/barrier.js");
 const validator = require("./server/validate.js");
+const mailer = require("./server/mailer.js");
 // app.use(morgan(":method :url :status"));
 
 // database
@@ -100,6 +101,22 @@ app.use("/transfers", auth, check_in, require("./routes/transfers"));
 app.use("/download", auth, check_in, require("./routes/download"));
 app.use("/images", require("./routes/images")); // no need for auth when loading images
 
+app.post("/resetpassword", async (req, res) => {
+  return res.json({ done: true });
+  let { email } = req.body;
+  let db = database.connect("users");
+  let match = _.filter(db.value(), { mainEmail: email });
+  if (!match.length) {
+    return res.status(400).send("This email is not registered with sendman");
+  }
+  match = match[0];
+  let password = utils.randomString(15, false);
+  match.password = password;
+  mailer.send(email, "password", { password: password }).catch((err) => {});
+  db.set(match.id + "." + password).write();
+  res.json({ done: true });
+});
+
 app.post("/signin", (req, res, next) => {
   let { email, password } = req.body;
   let db = database.connect("users");
@@ -169,12 +186,12 @@ app.post(
           console.log(matches);
           res.status(400).send("An account with this email already exists");
         } else {
-          // db.set(id, user).write();
-          // let pathToFiles = path.resolve(
-          //   __dirname,
-          //   "./server/storage/files/" + id
-          // );
-          // await utils.makeDir(pathToFiles);
+          db.set(id, user).write();
+          let pathToFiles = path.resolve(
+            __dirname,
+            "./server/storage/files/" + id
+          );
+          await utils.makeDir(pathToFiles);
           res.locals.user_id = id;
           next();
         }

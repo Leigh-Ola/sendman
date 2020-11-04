@@ -1,18 +1,22 @@
 function save(oldp, newp) {
+  const authtoken = localStorage.getItem("authtoken");
   return new Promise((resolve, reject) => {
     axios
       .post(
         "/users/self/password",
         {
-          value: { old: oldp, new: newp }
+          value: { old: oldp, new: newp },
         },
         {
-          validateStatus: status => {
+          validateStatus: (status) => {
             return status < 600;
-          }
+          },
+          headers: {
+            Authorization: "Bearer " + authtoken,
+          },
         }
       )
-      .then(res => {
+      .then((res) => {
         console.log(res);
         let status = res.status;
         if (status > 299) {
@@ -22,7 +26,7 @@ function save(oldp, newp) {
         console.log("succeeded");
         resolve();
       })
-      .catch(e => {
+      .catch((e) => {
         console.log("failed");
         reject("An unknown error occurred. Please try again");
       });
@@ -30,35 +34,35 @@ function save(oldp, newp) {
 }
 
 let template = {
-  data: function() {
+  data: function () {
     return {
       error: "",
       valid: true,
       saving: false,
       oldp: "",
       newp: "",
-      confirm: ""
+      confirm: "",
     };
   },
   watch: {
-    oldp: function(val) {
+    oldp: function (val) {
       this.$nextTick(() => {
         this.validate();
       });
     },
-    newp: function(val) {
+    newp: function (val) {
       this.$nextTick(() => {
         this.validate();
       });
     },
-    confirm: function(val) {
+    confirm: function (val) {
       this.$nextTick(() => {
         this.validate();
       });
-    }
+    },
   },
   methods: {
-    validate: function() {
+    validate: function () {
       if (this.saving) {
         return;
       }
@@ -79,7 +83,7 @@ let template = {
         this.error = "";
       }
     },
-    save: function() {
+    save: function () {
       if (!this.error && !this.saving) {
         this.error = "Saving...";
         this.saving = true;
@@ -92,14 +96,14 @@ let template = {
             this.saving = false;
             this.$emit("update");
           })
-          .catch(e => {
+          .catch((e) => {
             console.log(e);
             this.valid = false;
             this.error = e;
             this.saving = false;
           });
       }
-    }
+    },
   },
   props: [],
   template: `
@@ -119,7 +123,7 @@ let template = {
           </div>
           <ins :class="{'error': !valid}">{{error}}</ins>
           <button class="submit" :class="{'disabled': saving}" @click.stop="save()">Save</button>
-        </div>`
+        </div>`,
 };
 
 export { template };

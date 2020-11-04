@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SENDMAN | Login</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/fontawesome-all.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/iofrm-style.css" />
+    <link rel="stylesheet" type="text/css" href="css/iofrm-theme22.css" />
+
+    <link rel="stylesheet" href="./css/added.css" />
+  </head>
+  <body>
+    <div class="form-body without-side" id="app">
+      <div class="website-logo">
+        <a href="../index.html">
+          <div class="logo">
+            <img class="" src="./images/logo.png" alt="" />
+          </div>
+        </a>
+      </div>
+      <div class="row">
+        <div class="img-holder">
+          <div class="bg"></div>
+          <div class="info-holder">
+            <img src="images/graphic3.svg" alt="" />
+          </div>
+        </div>
+        <div class="form-holder">
+          <div class="form-content">
+            <div class="form-items">
+              <h3>Password Recovery</h3>
+              <p>
+                Get access to the most powerful tool for sending and receiving
+                files.
+              </p>
+              <form
+                action="/signin"
+                method="post"
+                name="login"
+                id="myform"
+                @submit.prevent="signin(event)"
+              >
+                <input
+                  class="form-control"
+                  type="email"
+                  name="email"
+                  placeholder="E-mail Address"
+                  v-model="email"
+                  required
+                />
+                <label for="email">{{email_err}}</label>
+                <span class="err" v-if="!msg">{{err}}</span>
+                <span class="err" style="color: green" v-else>{{msg}}</span>
+                <div class="form-button">
+                  <button id="submit" type="submit" class="ibtn">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="../Libs/Axios/axios.min.js"></script>
+  <script src="../Libs/Vue/vue.min.js"></script>
+  <script src="js/main.js"></script>
+</html>

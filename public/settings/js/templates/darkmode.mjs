@@ -1,18 +1,22 @@
 function save(val) {
+  const authtoken = localStorage.getItem("authtoken");
   return new Promise((resolve, reject) => {
     axios
       .post(
         "/users/self/darkmode",
         {
-          value: val
+          value: val,
         },
         {
-          validateStatus: status => {
+          validateStatus: (status) => {
             return status < 600;
-          }
+          },
+          headers: {
+            Authorization: "Bearer " + authtoken,
+          },
         }
       )
-      .then(res => {
+      .then((res) => {
         // console.log(res);
         let status = res.status;
         if (status > 299) {
@@ -22,7 +26,7 @@ function save(val) {
         // console.log("succeeded");
         resolve();
       })
-      .catch(e => {
+      .catch((e) => {
         console.log("failed");
         reject("An unknown error occurred. Please try again");
       });
@@ -30,22 +34,22 @@ function save(val) {
 }
 
 let template = {
-  data: function() {
+  data: function () {
     return {
-      saving: false
+      saving: false,
     };
   },
   computed: {
-    dark: function() {
+    dark: function () {
       return String(this.$props.darkmode).toLowerCase() == "true";
-    }
+    },
   },
   methods: {
-    toggle: function() {
+    toggle: function () {
       this.$props.darkmode = !this.dark;
       this.$emit("toggle");
-      save(this.$props.darkmode).catch(e => {});
-    }
+      save(this.$props.darkmode).catch((e) => {});
+    },
   },
   props: ["darkmode"],
   template: `
@@ -61,7 +65,7 @@ let template = {
             </div>
           </div>
         </div>
-    `
+    `,
 };
 
 export { template };

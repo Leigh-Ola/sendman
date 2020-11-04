@@ -1,19 +1,23 @@
 function save(number = "", remove = []) {
+  const authtoken = localStorage.getItem("authtoken");
   return new Promise((resolve, reject) => {
     axios
       .post(
         "/users/self/numbers",
         {
           value: number,
-          remove: remove
+          remove: remove,
         },
         {
-          validateStatus: status => {
+          validateStatus: (status) => {
             return status < 600;
-          }
+          },
+          headers: {
+            Authorization: "Bearer " + authtoken,
+          },
         }
       )
-      .then(res => {
+      .then((res) => {
         console.log(res);
         let status = res.status;
         if (status > 299) {
@@ -23,7 +27,7 @@ function save(number = "", remove = []) {
         console.log("succeeded");
         resolve();
       })
-      .catch(e => {
+      .catch((e) => {
         console.log("failed");
         reject("An unknown error occurred. Please try again");
       });
@@ -31,18 +35,18 @@ function save(number = "", remove = []) {
 }
 
 let template = {
-  data: function() {
+  data: function () {
     return {
       error: "",
       valid: true,
       saving: false,
       showinput: false,
       tempnumber: "",
-      removed: []
+      removed: [],
     };
   },
   watch: {
-    tempnumber: function(val) {
+    tempnumber: function (val) {
       if (this.saving) {
         return;
       }
@@ -54,17 +58,17 @@ let template = {
         this.error = "";
       }
     },
-    removed: function() {
+    removed: function () {
       if (this.error && this.valid) {
         this.error = "";
       }
-    }
+    },
   },
   methods: {
-    remove: function(number) {
+    remove: function (number) {
       this.removed.push(number);
     },
-    save: function() {
+    save: function () {
       if ((!this.error || this.removed.length) && !this.saving) {
         let removed = this.removed,
           temp = this.tempnumber;
@@ -92,14 +96,14 @@ let template = {
             this.tempnumber = "";
             this.$emit("update");
           })
-          .catch(e => {
+          .catch((e) => {
             this.valid = false;
             this.error = e;
             this.removed = [];
             this.saving = false;
           });
       }
-    }
+    },
   },
   props: ["numbers"],
   template: `
@@ -120,7 +124,7 @@ let template = {
     >New</button>
     <button class="submit" :class="{'disabled': saving}" @click.stop="save()">Save</button>
 </div>
-`
+`,
 };
 
 export { template };

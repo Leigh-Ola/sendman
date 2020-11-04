@@ -15,11 +15,11 @@ var app = new Vue({
     settings: {
       name: "",
       bio: "",
-      darkMode: false
+      darkMode: false,
     },
     validExtensions: ["png", "jpg", "jpeg"],
     loading: false,
-    loadText: ""
+    loadText: "",
   },
   components: {
     "v-username": v_username,
@@ -28,33 +28,38 @@ var app = new Vue({
     "v-numbers": v_numbers,
     "v-password": v_password,
     "v-privacy": v_privacy,
-    "v-darkmode": v_darkmode
+    "v-darkmode": v_darkmode,
   },
-  mounted: function() {
+  mounted: function () {
     this.update();
   },
   computed: {
-    isDarkMode: function() {
+    isDarkMode: function () {
       return String(this.settings.darkmode).toLowerCase() == "true";
     },
-    validExtensionsString: function() {
+    validExtensionsString: function () {
       let ans = this.validExtensions
         .slice()
-        .map(v => {
+        .map((v) => {
           return v.indexOf(".") != 0 ? "." + v : v;
         })
         .join(", ");
       return ans;
-    }
+    },
   },
   methods: {
-    toggleDark: function() {
+    toggleDark: function () {
       this.settings.darkmode = this.isDarkMode ? false : true;
     },
-    update: function() {
+    update: function () {
+      const authtoken = localStorage.getItem("authtoken");
       axios
-        .get("/users/self")
-        .then(res => {
+        .get("/users/self", {
+          headers: {
+            Authorization: "Bearer " + authtoken,
+          },
+        })
+        .then((res) => {
           // console.log("success");
           // console.log(res.data);
           let obj = res.data;
@@ -62,7 +67,7 @@ var app = new Vue({
             this.$set(this.settings, k, obj[k]);
           }
         })
-        .catch(e => {
+        .catch((e) => {
           // console.log("failed");
           // console.log(e);
           if (e.response && e.response.status == 401) {
@@ -70,7 +75,7 @@ var app = new Vue({
           }
         });
     },
-    upload: function() {
+    upload: function () {
       // console.log("changed");
       let el = Sizzle.matches("#file")[0];
       // console.log(el);
@@ -83,8 +88,8 @@ var app = new Vue({
       }
       // console.log(file);
       uploader.call(this, file);
-    }
-  }
+    },
+  },
 });
 
 async function uploader(file) {
@@ -93,7 +98,7 @@ async function uploader(file) {
 
   axios
     .post("/upload/image", formData, {
-      headers: { "Content-Type": "multipart/form-data" }
+      headers: { "Content-Type": "multipart/form-data" },
     })
     .then(() => {
       // console.log(`Sent ${file.name}`);
@@ -107,7 +112,7 @@ async function uploader(file) {
         this.loading = false;
       }, 1000);
     })
-    .catch(e => {
+    .catch((e) => {
       console.log(`Unable to send ${file.name} : ${e}`);
       console.log(e.response);
     })
