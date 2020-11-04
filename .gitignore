@@ -2,5 +2,3 @@ package-lock.json
 /node_modules
 .env
 *.env
-.env
-.env
