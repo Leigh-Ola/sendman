@@ -357,7 +357,7 @@ async function updateContacts(q) {
   if (String(data.constructor).indexOf("bject") > -1) {
     if (data.unauthorized) {
       console.log("unauthorized");
-      // window.location.href = "/login";
+      window.location.href = "/login";
       return;
     }
   }
@@ -398,8 +398,7 @@ async function updateMessages() {
   if (String(transfers.constructor).indexOf("bject") > -1) {
     if (transfers.unauthorized) {
       console.log("unauthorized");
-
-      // window.location.href = "/login";
+      window.location.href = "/login";
       return;
     }
   }

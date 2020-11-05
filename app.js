@@ -76,7 +76,6 @@ var auth = (req, res, next) => {
         }
         res.locals.barrier.user = user;
         res.locals.barrier.authenticated = true;
-        console.log("Authorized");
         next();
       });
     } catch (error) {
@@ -102,7 +101,6 @@ app.use("/download", auth, check_in, require("./routes/download"));
 app.use("/images", require("./routes/images")); // no need for auth when loading images
 
 app.post("/resetpassword", async (req, res) => {
-  return res.json({ done: true });
   let { email } = req.body;
   let db = database.connect("users");
   let match = _.filter(db.value(), { mainEmail: email });

@@ -41,7 +41,7 @@ async function send(recipient, mode, codes = {}) {
         var client = new postmark.ServerClient(process.env.POSTMARK_API_KEY);
         return client
           .sendEmail({
-            From: "dev@leighola.online",
+            From: "noreply@sendman.app",
             To: recipient,
             Subject: subject,
             HtmlBody: body,
