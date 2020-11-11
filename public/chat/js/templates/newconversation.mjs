@@ -3,27 +3,35 @@ import { fetchUsers, fetchContacts } from "../requests.mjs";
 let contacts = [];
 
 async function newChat(url, params) {
+  console.log("starting new chat: %o", params);
+  const authtoken = localStorage.getItem("authtoken");
   return new Promise((resolve, reject) => {
-    $.post(url, params, "json")
-      .done(res => {
+    axios
+      .post(url, params, {
+        validateStatus: (status) => {
+          return status < 600;
+        },
+        headers: { Authorization: "Bearer " + authtoken },
+      })
+      .then((res) => {
+        // console.log(res);
+        let status = res.status;
+        if (status > 299) {
+          console.log("failed");
+          return reject(res.data);
+        }
+        console.log("succeeded");
         resolve(res.data);
       })
-      .fail(e => {
-        // console.log(`Error on the way to ${url}`);
-        // console.log(e);
-        // try {
-        // let obj = JSON.parse(JSON.stringify(e));
-        // console.log(obj.responseText);
-        reject(e.responseText);
-        // // } catch (error) {
-        //   reject();
-        // }
+      .catch((e) => {
+        console.log("failed");
+        reject("An unknown error occurred. Please try again");
       });
   });
 }
 
 var data = {
-  data: function() {
+  data: function () {
     return {
       members: [],
       right: false,
@@ -36,10 +44,10 @@ var data = {
       searching: false,
       is_contacts: true,
       users: [],
-      loading: false
+      loading: false,
     };
   },
-  mounted: async function() {
+  mounted: async function () {
     let con = await fetchContacts();
     contacts = con;
     for (let c in con) {
@@ -47,7 +55,7 @@ var data = {
     }
   },
   watch: {
-    temp_query: function(temp) {
+    temp_query: function (temp) {
       var err = "Query is too short";
       if (temp.length > 2) {
         err = "Query is too long";
@@ -59,7 +67,7 @@ var data = {
       }
       this.q_err = err;
     },
-    temp_grpname: function(temp) {
+    temp_grpname: function (temp) {
       var err = "Group name is too short";
       if (temp.length > 3) {
         err = "Group name is too long";
@@ -73,23 +81,23 @@ var data = {
         }
       }
       this.g_err = err;
-    }
+    },
   },
   computed: {
-    is_group: function() {
+    is_group: function () {
       return this.members.length <= 1 ? false : true;
     },
-    allGood: function() {
+    allGood: function () {
       if (this.is_group) {
         if (this.g_err != "" || this.grpname == "") {
           return false;
         }
       }
       return this.members.length > 0;
-    }
+    },
   },
   methods: {
-    search: async function(e) {
+    search: async function (e) {
       if (this.q_err || !this.query) {
         return;
       }
@@ -101,7 +109,7 @@ var data = {
       this.is_contacts = false;
       this.searching = false;
     },
-    toggleMember: function(user) {
+    toggleMember: function (user) {
       let members = this.members;
       let rem = false;
       for (let k in members) {
@@ -114,7 +122,7 @@ var data = {
         this.members.push(user);
       }
     },
-    checkMember: function(id) {
+    checkMember: function (id) {
       for (let user of this.members) {
         if (user.id == id) {
           return true;
@@ -122,12 +130,12 @@ var data = {
       }
       return false;
     },
-    checkRight: function() {
+    checkRight: function () {
       if (this.grpname && !this.g_err) {
         this.right = true;
       }
     },
-    done: async function() {
+    done: async function () {
       if (!this.allGood || this.loading) {
         return;
       }
@@ -135,16 +143,16 @@ var data = {
 
       if (this.members.length > 1) {
         await newChat("/newchat/group", {
-          id: this.members.map(v => v.id),
-          name: this.grpname
-        }).catch(e => {
+          id: this.members.map((v) => v.id),
+          name: this.grpname,
+        }).catch((e) => {
           e = typeof e == "string" ? e : "Unknown Error. Please try again";
           this.g_err = e;
         });
       } else {
         await newChat("/newchat/private", {
-          id: this.members[0].id
-        }).catch(e => {
+          id: this.members[0].id,
+        }).catch((e) => {
           e = typeof e == "string" ? e : "Unknown Error. Please try again";
           this.g_err = e;
         });
@@ -166,16 +174,16 @@ var data = {
         g_err: "",
         searching: false,
         users: contacts,
-        loading: false
+        loading: false,
       };
       for (let k in orig) {
         this[k] = orig[k];
       }
       this.close();
     },
-    close: function() {
+    close: function () {
       this.$emit("close");
-    }
+    },
   },
   template: `
         <div class="asidebox show">
@@ -236,7 +244,7 @@ var data = {
               </button>
             </div>
           </aside>
-        </div>`
+        </div>`,
 };
 
 export { data as template };

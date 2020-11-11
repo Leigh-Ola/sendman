@@ -41,7 +41,7 @@
           </a>
         </header>
 
-        <div class="notificationBox" @click.stop="logoClick()" v-if='showNotif'>
+        <div class="notificationBox" @click.stop="logoClick()" v-if="showNotif">
           <div class="imgBox">
             <i class="fa fa-bell"></i>
           </div>
@@ -60,6 +60,8 @@
             @close="newc_popup = false"
           ></v-new-conversation>
         </div>
+
+        <!-- Search -->
         <form
           @submit.prevent="updateContacts(filter)"
           action="/"
@@ -89,6 +91,7 @@
             v-if="!loadingUsers"
             :user="user"
             :active_id="active_user_id"
+            :key="user.chatId"
             @switch="switchUser($event)"
             @pin="pinChat($event)"
           ></v-user>
@@ -153,9 +156,7 @@
           >
             <img class="logo" v-if="contacts.length == 0" src="../logo.png" />
             <img class="empty" src="./img/notransfers.png" alt="" />
-            <button @click="firstFile()">
-              Send A File
-            </button>
+            <button @click="firstFile()">Send A File</button>
           </div>
 
           <v-message

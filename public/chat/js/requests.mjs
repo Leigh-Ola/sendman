@@ -128,6 +128,7 @@ var getData = async function (url, params = {}, returnErr = false) {
   return new Promise((resolve, reject) => {
     $.ajax({
       url,
+      data: params,
       type: "GET",
       headers: { Authorization: "Bearer " + authtoken },
       // ('Authorization', 'Bearer t-7614f875-8423-4f20-a674-d7cf3096290e')
@@ -160,6 +161,7 @@ var getData = async function (url, params = {}, returnErr = false) {
 };
 
 var fetchChats = async function (q = "", archive = false, returnErr) {
+  // console.log(`Fetching chats with query "${q}"`);
   return await getData(
     "/users/self/chats",
     { query: q, archive: archive },

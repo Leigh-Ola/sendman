@@ -22,11 +22,6 @@
     "contacts": [],
     "chats": [
       {
-        "type": "private",
-        "recipient": "1595076661183lByQGbrqz9S3blxRi",
-        "chatId": "1595076689186t6SKv0mkdVKl5pgoA"
-      },
-      {
         "type": "group",
         "recipients": [
           "1595076568687Gz5Uz6fUUYFUWyRjH",
@@ -34,6 +29,11 @@
           "1595076661183lByQGbrqz9S3blxRi"
         ],
         "chatId": "1595789231707A5zpsok2Vdv8mh6aX"
+      },
+      {
+        "type": "private",
+        "recipient": "1595076661183lByQGbrqz9S3blxRi",
+        "chatId": "1595076689186t6SKv0mkdVKl5pgoA"
       }
     ]
   },
@@ -52,18 +52,13 @@
     "id": "1595076661183lByQGbrqz9S3blxRi",
     "image": "/images/user/1595076661183lByQGbrqz9S3blxRi",
     "bio": "this is my bio",
-    "lastSeen": "2020-11-11T19:47:50.948Z",
+    "lastSeen": "2020-11-05T15:07:35.923Z",
     "privacy": {
       "group": "friends",
       "profile": "no one"
     },
     "contacts": [],
     "chats": [
-      {
-        "type": "private",
-        "recipient": "1595076568687Gz5Uz6fUUYFUWyRjH",
-        "chatId": "1595076689186t6SKv0mkdVKl5pgoA"
-      },
       {
         "type": "group",
         "recipients": [
@@ -72,6 +67,11 @@
           "1595076661183lByQGbrqz9S3blxRi"
         ],
         "chatId": "1595789231707A5zpsok2Vdv8mh6aX"
+      },
+      {
+        "type": "private",
+        "recipient": "1595076568687Gz5Uz6fUUYFUWyRjH",
+        "chatId": "1595076689186t6SKv0mkdVKl5pgoA"
       },
       {
         "type": "private",

@@ -12,7 +12,7 @@ import { Notif } from "./notification.mjs";
 
 const Notify = Notif();
 
-const Recur = Recurrent(3000);
+const Recur = Recurrent(5000);
 new Vue({
   el: "#app",
   data: {
@@ -53,11 +53,11 @@ new Vue({
   },
   mounted: function () {
     updateContacts.apply(this);
-    // handleFileUpload.apply(this);
-    // Recur.add({
-    //   updateMessages: [updateMessages, this],
-    //   updateContacts: [updateContacts, this]
-    // });
+    handleFileUpload.apply(this);
+    Recur.add({
+      updateMessages: [updateMessages, this],
+      updateContacts: [updateContacts, this],
+    });
     document
       .getElementsByClassName("sendfile")[0]
       .addEventListener("click", () => {
@@ -176,9 +176,13 @@ new Vue({
       this.$set(this.fileData, "reset", true);
       let cancelTokenSource = axios.CancelToken.source();
 
+      const authtoken = localStorage.getItem("authtoken");
       axios
         .post("/upload/file", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + authtoken,
+          },
           cancelToken: cancelTokenSource.token,
           onUploadProgress: (progEv) => {
             if (this.fileData.cancelled) {
@@ -255,7 +259,7 @@ new Vue({
       updateContacts.apply(this, [query]);
       updateMessages.apply(this);
       Recur.add({
-        updateContacts: [updateContacts, this, query],
+        updateContacts: [updateContacts, this, [query]],
         updateMessages: [updateMessages, this],
       });
     },
@@ -345,6 +349,7 @@ function handleFileUpload() {
 }
 
 async function updateContacts(q) {
+  // console.log(q);
   if (q && this.f_err) {
     return;
   }
@@ -354,6 +359,7 @@ async function updateContacts(q) {
   }
   let data = await fetchChats(q ? q : "", this.inArchive);
   // console.log(data);
+  // console.log(JSON.stringify(data[0]));
   if (String(data.constructor).indexOf("bject") > -1) {
     if (data.unauthorized) {
       console.log("unauthorized");

@@ -26,7 +26,7 @@ function wrapper(timeout) {
     setTimeout(funcCaller, self.timeout);
   }
   caller.prototype = {
-    add: function(obj) {
+    add: function (obj) {
       if (obj instanceof Array) {
         fakeFuncs[new Date().getTime()] = obj;
       } else {
@@ -37,15 +37,15 @@ function wrapper(timeout) {
         }
       }
     },
-    remove: function(key) {
+    remove: function (key) {
       let f = funcs[key];
       delete funcs[key];
       return f;
     },
-    get: function(key) {
+    get: function (key) {
       let f = funcs[key];
       return f;
-    }
+    },
   };
   return new caller();
 }

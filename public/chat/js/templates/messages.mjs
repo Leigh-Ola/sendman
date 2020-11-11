@@ -1,15 +1,19 @@
 import { utilities } from "../utilities.js";
 
 async function deleteMessage(chatId, fileId) {
+  const authtoken = localStorage.getItem("authtoken");
+  const config = {
+    headers: { Authorization: "Bearer " + authtoken },
+  };
   let url = `/transfers/${chatId}/${fileId}`;
   return await axios
-    .delete(url)
-    .then(res => {
+    .delete(url, config, config)
+    .then((res) => {
       // console.log("yasss");
       // console.log(res.data);
       // return res.data.data;
     })
-    .catch(e => {
+    .catch((e) => {
       // console.log("noooo");
       // console.log(e);
       return;
@@ -21,11 +25,11 @@ var message = {
     return {
       showDelete: false,
       lastShowDelete: 0,
-      deleted: false
+      deleted: false,
     };
   },
   watch: {
-    showDelete: function(val) {
+    showDelete: function (val) {
       this.lastShowDelete = new Date().getTime();
       if (val) {
         setTimeout(() => {
@@ -35,7 +39,7 @@ var message = {
         }, 3000);
       }
     },
-    deleted: async function(del) {
+    deleted: async function (del) {
       if (!del) {
         return;
       }
@@ -46,21 +50,18 @@ var message = {
         await deleteMessage(chatId, fileId);
         this.showDelete = false;
       });
-    }
+    },
   },
   computed: {
-    extension: function() {
-      return this.$props.message.name
-        .split(".")
-        .reverse()[0]
-        .toLowerCase();
+    extension: function () {
+      return this.$props.message.name.split(".").reverse()[0].toLowerCase();
     },
-    thumbnail: function() {
+    thumbnail: function () {
       let ext = this.extension;
       let thumb = utilities.fileThumbnail(ext);
       return thumb;
     },
-    name: function() {
+    name: function () {
       let name = this.$props.message.name;
       if (name.length <= 20) {
         return name;
@@ -68,14 +69,14 @@ var message = {
       let ans = name.substr(0, 15) + "..." + this.extension;
       return ans;
     },
-    timePassed: function() {
+    timePassed: function () {
       // console.log(this.$props.chat);
       // console.log(this.$props.chat.image);
       // http://localhost:8080/images/user/1594761128303drxmka7eqiojw8f8g
       let time = this.$props.message.time;
       let then = new Date(time);
       return utilities.passedTime(then);
-    }
+    },
   },
   props: ["message", "chat"],
   template: `
@@ -104,7 +105,7 @@ var message = {
           </div>
   `,
   methods: {},
-  mounted: function() {}
+  mounted: function () {},
 };
 
 export { message as template };

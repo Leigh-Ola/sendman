@@ -1,19 +1,21 @@
 function save(name, id = "", remove = []) {
+  const authtoken = localStorage.getItem("authtoken");
   return new Promise((resolve, reject) => {
     axios
       .post(
         "/users/self/" + name,
         {
           value: id,
-          remove: remove
+          remove: remove,
         },
         {
-          validateStatus: status => {
+          validateStatus: (status) => {
             return status < 600;
-          }
+          },
+          headers: { Authorization: "Bearer " + authtoken },
         }
       )
-      .then(res => {
+      .then((res) => {
         console.log(res);
         let status = res.status;
         if (status > 299) {
@@ -23,7 +25,7 @@ function save(name, id = "", remove = []) {
         console.log("succeeded");
         resolve();
       })
-      .catch(e => {
+      .catch((e) => {
         console.log("failed");
         reject("An unknown error occurred. Please try again");
       });
@@ -31,18 +33,18 @@ function save(name, id = "", remove = []) {
 }
 
 var user = {
-  data: function() {
+  data: function () {
     return {
       slide: false,
-      show: true
+      show: true,
     };
   },
   methods: {
-    switchUser: function(id) {
+    switchUser: function (id) {
       this.slide = false;
       this.$emit("switch", id);
     },
-    toggleMute: async function() {
+    toggleMute: async function () {
       let user = this.$props.user;
       let ismute = user.muted;
       this.$props.user.muted = !ismute;
@@ -52,7 +54,7 @@ var user = {
       this.slide = false;
       save("muted", id, rem);
     },
-    toggleArchive: async function() {
+    toggleArchive: async function () {
       let user = this.$props.user;
       let isarchived = user.archived;
       this.$props.user.archived = !isarchived;
@@ -63,7 +65,7 @@ var user = {
       save("archived", id, rem);
       this.show = false;
     },
-    togglePin: async function() {
+    togglePin: async function () {
       let user = this.$props.user;
       let ispinned = user.pinned;
       this.$props.user.pinned = !ispinned;
@@ -73,18 +75,18 @@ var user = {
       this.slide = false;
       save("pinned", id, rem);
       this.$emit("pin", id);
-    }
+    },
   },
   watch: {
-    active_id: function() {
+    active_id: function () {
       this.slide = false;
       this.show = true;
-    }
+    },
   },
   computed: {
-    isGroup: function() {
+    isGroup: function () {
       return this.$props.user.type == "group";
-    }
+    },
   },
   props: ["user", "active_id"],
   template: `
@@ -118,7 +120,7 @@ var user = {
                 <small>{{user.time}}</small>
               </div>
             </div>
-          </div>`
+          </div>`,
 };
 
 export { user as template };

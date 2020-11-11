@@ -50,6 +50,7 @@ router.get("/", (req, res) => {
   let db = database.connect("users");
   let val = Object.values(db.getState());
   val = filter(val, searhQuery, id).slice(0, 20);
+  console.log(val.length);
   val = val.map((user) => {
     let ans = {};
     availableParamsForAll.forEach((v) => {
@@ -57,6 +58,7 @@ router.get("/", (req, res) => {
     });
     return ans;
   });
+  // console.log(val.length);
   res.status(200).json({ done: true, data: val });
 });
 
@@ -157,6 +159,7 @@ router.get("/self/:key", async (req, res) => {
     val = await getUsers(val, db, id);
     // console.log(`chats : ${val.length}`);
     if (searhQuery) {
+      // console.log(searhQuery);
       val = filter(val, searhQuery);
     }
     // console.log(`chats : ${val.length}`);

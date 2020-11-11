@@ -83,6 +83,7 @@ var auth = (req, res, next) => {
       return res.status(401).send("Authorization failed");
     }
   } else {
+    console.log(req.headers);
     console.log(`Not authorized to access : ${req.originalUrl}`);
     return res.status(401).send("Authorization required");
   }
