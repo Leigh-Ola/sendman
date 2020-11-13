@@ -98,7 +98,7 @@ app.use("/users", auth, check_in, require("./routes/users"));
 app.use("/newchat", auth, check_in, require("./routes/newchat"));
 app.use("/upload", auth, check_in, require("./routes/upload"));
 app.use("/transfers", auth, check_in, require("./routes/transfers"));
-app.use("/download", auth, check_in, require("./routes/download"));
+app.use("/download", require("./routes/download")); // no need for auth to download
 app.use("/images", require("./routes/images")); // no need for auth when loading images
 
 app.post("/resetpassword", async (req, res) => {
